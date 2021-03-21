@@ -1,120 +1,127 @@
 @extends('admin.layouts.master')
-@section("title")
-Customers - Dashboard
-@endsection
+@section("title") Users | {{ env('APP_NAME') }} @endsection
 @section('content')
+<br>
 <div class="page-header">
-  <div class="page-header-content header-elements-md-inline">
-    <div class="page-title d-flex">
-      <h4><i class="icon-circle-right2 mr-2"></i>
-        <span class="font-weight-bold mr-2">TOTAL CUSTOMER</span>
-        <span class="badge badge-primary badge-pill animated flipInX">{{ $total }}</span>
-      </h4>
-      <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    @if (Session::get('state'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ Session::get('state') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <!-- <div class="header-elements d-none py-0 mb-3 mb-md-0">
-      <div class="breadcrumb">  
-        <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2" id="addNewRestaurant"
-        data-toggle="modal" data-target="#addNewRestaurantModal">
-        <b><i class="icon-plus2"></i></b>
-        Add New Vendor
-      </button>
+    @endif
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-circle-right2 mr-2"></i>
+                <span class="font-weight-bold mr-2">Total Customers</span>
+                <span class="badge badge-primary badge-pill animated flipInX">{{ $users_count }}</span>
+            </h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        <div class="header-elements d-none py-0 mb-3 mb-md-0">
+            <div class="breadcrumb">
+                <a href="{{ route('user.add') }}">
+                    <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
+                        <b><i class="icon-plus2"></i></b>
+                        Add User
+                    </button>
+                </a>
+            </div>
+        </div>
     </div>
-  </div> -->
-</div>
 </div>
 <div class="content">
-  <form action="" method="GET">
-    <div class="form-group form-group-feedback form-group-feedback-right search-box">
-      <input type="text" class="form-control form-control-lg search-input"
-      placeholder="Search with vendor name..." name="query">
-      <div class="form-control-feedback form-control-feedback-lg">
-        <i class="icon-search4"></i>
-      </div>
-    </div>
-  </form>
-  <div class="card">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th style="width: 25%;">Name</th>
-              <th style="width: 20%">Mobile</th>
-              <th style="width: 20%;">Type</th>
-              <th style="width: 20%;">Wallet Balance</th>
-              <th class="text-center" style="width: 10%;"><i class="icon-circle-down2"></i></th>
-            </tr>
-          </thead>
-          <tbody>
-          @foreach($customers as $customer)
-            <tr>
-              <td>{{ $customer->name }}</td>
-              <td>{{ $customer->mobile }}</td>
-              <td>{{ $customer->type }}</td>
-              <td>&#8377;{{ $customer->wallet_balance }}</td>
-              <td class="text-center">
-                <div class="btn-group btn-group-justified">
-                  <a href="{{ route('customer.edit', $customer->id) }}" class="badge badge-primary badge-icon"> Edit <i class="icon-database-edit2 ml-1"></i></a>
-                  <a href="{{ route('customer.delete', $customer->id) }}" class="badge badge-danger badge-icon ml-1 doubleClickDelete" data-popup="tooltip" title="Double click to delete" data-placement="bottom"> <i class="icon-trash"></i> </a>
+    <form id='user_filters' action="{{ route('users') }}" autocomplete="off" method="GET">
+        <div class="form-group row template mt-2">
+            <div class="col-lg-4">
+                <div class="form-group form-group-feedback form-group-feedback-right search-box">
+                    <input type="text" class="form-control form-control-lg " placeholder="Search with user name or mobile" name="squery"
+                        value="{{ request('squery') }}">
+                    <div class="form-control-feedback form-control-feedback-lg mt-0">
+                        <i class="icon-search4"></i>
+                    </div>
                 </div>
-              </td>
-            </tr> 
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- <div id="addNewRestaurantModal" class="modal fade" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><span class="font-weight-bold">Add New Vendor</span></h5>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form action="" method="POST" enctype="multipart/form-data">
-          <div class="form-group row">
-            <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Name:</label>
-            <div class="col-lg-9">
-              <input type="text" class="form-control form-control-lg" name="name" placeholder="Vendor Name"
-              required>
             </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Mobile:</label>
-            <div class="col-lg-9">
-              <input type="text" class="form-control form-control-lg" name="mobile" placeholder="Mobile"
-              required>
+            <div class="col-lg-3">
+                <button type="submit" class="btn btn-primary btn-icon" style="margin-left:0;"><i class="icon-search4"></i></button>
+                <button type="button" id="clear_form" class="btn alpha-pink text-pink-800 btn-icon ml-2"><i class="icon-cross3"></i></button>
             </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>User Type:</label>
-            <div class="col-lg-9">
-              <select name="role" class="form-control select"  tabindex="-1">
-                <option value="" class="text-capitalize">Admin</option>
-                <option value="" class="text-capitalize">Vendor</option>
-                <option value="" class="text-capitalize">Customer</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Wallet Balance:</label>
-            <div class="col-lg-9">
-              <input type="text" class="form-control form-control-lg" name="wallet"
-              placeholder="Wallet Balance" required>
-            </div>
-          </div>
-          <div class="text-right">
-            <button type="submit" class="btn btn-primary">
-              SAVE
-              <i class="icon-database-insert ml-1"></i></button>
-            </div>
-          </form>
         </div>
-      </div>
+    </form>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Client ID</th>
+                            <th>Client Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Contact</th>
+                            <th>Alt. Contact</th>
+                            <th>Aadhar</th>
+                            <th>PAN</th>
+                            <th>GST</th>
+                            <th>DOB</th>
+                            <th>Anniversary</th>
+                            <th>Connection Date</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($customers as $customer)
+                        <tr>
+                            <td>
+                                <a href="{{ route('user.edit', $customer->id) }}">{{ $customer->customer_email }}</a>
+                            </td>
+                            <td>{{ $customer->customer_name }}</td>
+                            <td>{{ $customer->customer_email }}</td>
+                            <td>{{ $customer->customer_address }}</td>
+                            <td>{{ $customer->customer_contact_number }}</td>
+                            <td>{{ $customer->contact_number_two }}</td>
+                            <td>{{ $customer->aadhar_no }}</td>
+                            <td>{{ $customer->pan_no }}</td>
+                            <td>{{ $customer->gstin_no }}</td>
+                            <td>{{ $customer->dob }}</td>
+                            <td>{{ $customer->anniversary_date }}</td>
+                            <td>{{ $customer->connection_date }}</td>
+                            <td>{{ $customer->remarks }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        @endforeach
+                        @if (count($customers) == 0)
+                        <tr>
+                            <td colspan="8" class="text-center">No results found</td>
+                        </tr>
+                        @endif
+                    </tbody>
+                </table>
+                <div class="mt-3">
+                    {{ $customers->appends(request()->except('page'))->links() }}
+                </div>
+            </div>
+        </div>
     </div>
-  </div> -->
-  @endsection
+</div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        var form = $('#user_filters');
+        $('#clear_form').click(function () {
+            form.find('input').val('');
+            form.find('select').val('');
+            form.submit();
+        });
+        $('#excel_export').click(function () {
+            form.find("input[name='excel_export']").val(1);
+            form.attr('target', '_blank').submit();
+            form.removeAttr('target');
+            form.find("input[name='excel_export']").val(0);
+        });
+    });
+</script>
+@endsection

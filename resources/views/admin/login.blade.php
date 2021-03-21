@@ -14,7 +14,7 @@ style="margin: 0 auto 20px auto;">
         <span class="d-block text-muted">Enter your credentials below</span>
       </div>
       <div class="form-group form-group-feedback form-group-feedback-left">
-        <input type="text" class="form-control" placeholder="Email" name="email" autocomplete="off">
+        <input type="text" class="form-control" placeholder="Email" name="user_name" autocomplete="off">
         <div class="form-control-feedback">
           <i class="icon-user text-muted"></i>
         </div>

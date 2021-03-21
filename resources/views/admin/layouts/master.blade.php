@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield("title")</title>
   <!-- Global stylesheets -->
-  <link href="https://fonts.googleapis.com/css?family=Dosis:300,400,500,600,700|Poppins:300,400,500,600,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css">
   <link href="{{ asset('assets/backend/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('assets/backend/css/combined.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('assets/backend/css/layout.min.css') }}" rel="stylesheet" type="text/css">
