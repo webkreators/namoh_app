@@ -9,7 +9,7 @@
   <div class="navbar navbar-expand-md navbar-dark">
   <div class="navbar-brand wmin-0 mr-5">
     <a href="{{ route('dashboard') }}" class="d-inline-block">
-      <h5 class="pay-service-logo">PAY SERVICES</h5>
+      <h5 class="pay-service-logo">Namoh Network</h5>
     </a>
   </div>
   <div class="d-md-none">
@@ -53,25 +53,21 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('services.list') }}" class="navbar-nav-link {{ Request::is('admin/services') ? 'active' : '' }}">
+          <a href="{{ route('users') }}" class="navbar-nav-link {{ Request::is('admin/users') ? 'active' : '' }}">
             <i class="icon-toggle mr-2"></i>
-            Services
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="javascript:void(0)" class="navbar-nav-link dropdown-toggle {{ Request::is('admin/widgets') ? 'active' : '' }}" data-toggle="dropdown">
-            <i class="icon-users2 mr-2"></i>
-            Home Widgets
-          </a>
-          <div class="dropdown-menu">
-            <a href="{{ route('widgets.list') }}" class="dropdown-item"> <i class="icon-users4 mr-2"></i>Widgets</a>
-            <a href="{{ route('widgets.requests') }}" class="dropdown-item"> <i class="icon-user-tie mr-2"></i>Requests</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="javascript:void(0)" class="navbar-nav-link dropdown-toggle {{ Request::is('admin/users') ? 'active' : '' }}" data-toggle="dropdown">
-            <i class="icon-users2 mr-2"></i>
             Users
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="{{ route('customers') }}" class="navbar-nav-link {{ Request::is('admin/customers') ? 'active' : '' }}">
+            <i class="icon-users2 mr-2"></i>
+            Customers
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="javascript:void(0)" class="navbar-nav-link dropdown-toggle {{ Request::is('admin/services') ? 'active' : '' }}" data-toggle="dropdown">
+            <i class="icon-users2 mr-2"></i>
+            Services
           </a>
           <div class="dropdown-menu">
             <a href="{{ route('users') }}" class="dropdown-item"> <i class="icon-users4 mr-2"></i> All Users</a>
@@ -83,13 +79,13 @@
         <li class="nav-item">
           <a href="{{ route('orders.list') }}" class="navbar-nav-link {{ Request::is('admin/orders') ? 'active' : '' }}">
             <i class="icon-basket mr-2"></i>
-            Orders
+            Invoices
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('order.accounts') }}" class="navbar-nav-link {{ Request::is('admin/accounts') ? 'active' : '' }}">
+          <a href="{{ route('settings') }}" class="navbar-nav-link {{ Request::is('admin/accounts') ? 'active' : '' }}">
             <i class="icon-calculator3 mr-2"></i>
-            Accounts
+            Settings
           </a>
         </li>
       </ul>

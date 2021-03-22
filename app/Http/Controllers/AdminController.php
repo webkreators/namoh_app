@@ -17,4 +17,8 @@ class AdminController extends Controller
         $customer_counts = Customer::count();
         return view('admin.dashboard', compact('customer_counts'));
     }
+
+    public function settings(Request $request) {
+        return view('admin.settings');
+    }
 }

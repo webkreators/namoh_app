@@ -41,7 +41,7 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/customers/{id}/edit', [ CustomerController::class, 'edit' ])->name('customer.edit');
         Route::put('/customers/{id}', [ CustomerController::class, 'update' ])->name('customer.update');
 
-
+        Route::get('/settings', [ AdminController::class, 'settings' ])->name('settings');
 
         
         Route::get('/edit/customer', 'UserController@editcustomer')->name('editcustomer');
