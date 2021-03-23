@@ -16,4 +16,8 @@ class CustomerController extends Controller
         $customers = $query->paginate(env('ITEMS_PER_PAGE'));
         return view('admin.customers.list', compact('customers', 'users_count', 'type'));
     }
+    public function addCustomer(Request $request)
+    {
+        return view('admin.customers.add');
+    }
 }

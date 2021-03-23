@@ -65,9 +65,21 @@
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a href="javascript:void(0)" class="navbar-nav-link dropdown-toggle {{ Request::is('admin/services') ? 'active' : '' }}" data-toggle="dropdown">
+          <a href="{{ route('services') }}" class="navbar-nav-link {{ Request::is('admin/services') ? 'active' : '' }}">
             <i class="icon-users2 mr-2"></i>
             Services
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="{{ route('invoices') }}" class="navbar-nav-link {{ Request::is('admin/invoices') ? 'active' : '' }}">
+            <i class="icon-users2 mr-2"></i>
+            Invoices
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="javascript:void(0)" class="navbar-nav-link dropdown-toggle {{ Request::is('admin/services') ? 'active' : '' }}" data-toggle="dropdown">
+            <i class="icon-users2 mr-2"></i>
+            demo
           </a>
           <div class="dropdown-menu">
             <a href="{{ route('users') }}" class="dropdown-item"> <i class="icon-users4 mr-2"></i> All Users</a>

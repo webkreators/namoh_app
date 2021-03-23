@@ -21,7 +21,7 @@
         </div>
         <div class="header-elements d-none py-0 mb-3 mb-md-0">
             <div class="breadcrumb">
-                <a href="{{ route('user.add') }}">
+                <a href="{{ route('customer.add') }}">
                     <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
                         <b><i class="icon-plus2"></i></b>
                         Add User

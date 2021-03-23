@@ -14,17 +14,17 @@
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
-                <span class="font-weight-bold mr-2">Total Services</span>
+                <span class="font-weight-bold mr-2">Total Customers</span>
                 <span class="badge badge-primary badge-pill animated flipInX"></span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
         <div class="header-elements d-none py-0 mb-3 mb-md-0">
             <div class="breadcrumb">
-                <a href="{{ route('service.add') }}">
+                <a href="{{ route('invoices.add') }}">
                     <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
                         <b><i class="icon-plus2"></i></b>
-                        Add Services
+                        Add Invoices
                     </button>
                 </a>
             </div>
@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="content">
-    <form id='user_filters' action="{{ route('services') }}" autocomplete="off" method="GET">
+    <form id='user_filters' action="{{ route('invoices') }}" autocomplete="off" method="GET">
         <div class="form-group row template mt-2">
             <div class="col-lg-4">
                 <div class="form-group form-group-feedback form-group-feedback-right search-box">

@@ -16,4 +16,8 @@ class UserController extends Controller
         $users = $query->paginate(env('ITEMS_PER_PAGE'));
         return view('admin.users.list', compact('users', 'users_count', 'type'));
     }
+    public function addUser(Request $request)
+    {
+        return view('admin.users.add');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller {
     
@@ -13,6 +14,10 @@ class LoginController extends Controller {
     
     public function authenticate(Request $request) {
         $credentials = $request->only('user_name', 'password');
+        // echo '<pre>';
+        // print_r($credentials);
+        // echo Hash::make($request->password);
+        // exit;
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'));

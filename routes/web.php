@@ -5,6 +5,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\InvoiceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +38,7 @@ Route::group(['prefix' => 'admin'], function() {
 
         Route::get('/customers', [ CustomerController::class, 'list' ])->name('customers');
         Route::get('/customers/delete/{id}', [ CustomerController::class, 'delete' ])->name('customers.delete');
-        Route::get('/customers/add', [ CustomerController::class, 'addUser' ])->name('customer.add');
+        Route::get('/customers/add', [ CustomerController::class, 'addCustomer' ])->name('customer.add');
         Route::post('/customers', [ CustomerController::class, 'saveUser' ])->name('customer.post');
         Route::get('/customers/{id}/edit', [ CustomerController::class, 'edit' ])->name('customer.edit');
         Route::put('/customers/{id}', [ CustomerController::class, 'update' ])->name('customer.update');
@@ -46,13 +48,21 @@ Route::group(['prefix' => 'admin'], function() {
         
         Route::get('/edit/customer', 'UserController@editcustomer')->name('editcustomer');
         /** Service routes */
-        Route::get('/services', 'ServiceController@show')->name('services.list')->middleware('cloudinary.init');
+        Route::get('/services', [ ServiceController::class, 'list' ])->name('services');
         Route::get('/services/edit/{id}', 'ServiceController@edit')->name('service.edit')->middleware('cloudinary.init');
-        Route::get('/services/add', 'ServiceController@add')->name('service.add');
+        Route::get('/services/add', [ ServiceController::class,'addServices' ])->name('service.add');
         Route::get('/services/delete/{id}', 'ServiceController@delete')->name('service.delete');
         Route::post('/services', 'ServiceController@addService')->name('service.post')->middleware('cloudinary.init');
         Route::put('/services/{id}', 'ServiceController@updateService')->name('service.update')->middleware('cloudinary.init');
         /** users routes */
+        
+        Route::get('/invoices', [ InvoiceController::class, 'list' ])->name('invoices');
+        Route::get('/invoices/delete/{id}', [ InvoiceController::class, 'delete' ])->name('invoices.delete');
+        Route::get('/invoices/add', [ InvoiceController::class, 'addInvoices' ])->name('invoices.add');
+        Route::post('/invoices', [ InvoiceController::class, 'save' ])->name('invoices.post');
+        Route::get('/invoices/{id}/edit', [ InvoiceController::class, 'edit' ])->name('invoices.edit');
+        Route::put('/invoices/{id}', [ InvoiceController::class, 'update' ])->name('invoices.update');
+
         
         Route::get('/users/service-list/{id}', 'UserController@service')->name('user.service');
         Route::post('/users/{id}/document-update', 'UserController@updateDocuments')->name('user.document');

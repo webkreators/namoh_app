@@ -13,89 +13,63 @@
   </div>
 </div>
 <div class="content">
-  <div class="row">
-    <div class="col-md-7">
-      <div class="card">
-        <div class="card-body">
-          <form class="jquery-validation-form" action="{{ route('service.post') }}" id="create_service" method="POST" enctype="multipart/form-data">
-            @csrf
-            <legend class="font-weight-semibold text-uppercase font-size-sm">
-              <i class="icon-address-book mr-2"></i> Enter Details
-            </legend>
-            <input type="hidden" name="id" value="">
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Service Name:</label>
-              <div class="col-lg-9">
-                <input value="" type="text" class="form-control form-control-lg error" name="name" placeholder="Service Name" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Description:</label>
-              <div class="col-lg-9">
-                <input value="" type="text" class="form-control form-control-lg error" name="description" placeholder="Service Short Description" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Service Charge:</label>
-              <div class="col-lg-9">
-                <input value="" type="number" class="form-control form-control-lg error" name="charges" placeholder="Service Charge" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label"><span class="text-danger"></span>Parent Service:</label>
-              <div class="col-lg-9">
-                <select class="form-control select-search error" name="parent_id" id="parent_id">
-                  <option value="0">Select Parent Service</option>
-                  @foreach ($services as $service)
-                  <option value="{{ $service->id }}" class="text-capitalize">{{ $service->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label">Image Icon:</label>
-              <div class="col-lg-9">
-                <img class="slider-preview-image hidden">
-                <div class="uploader">
-                  <div class="uniform-uploader">
-                    <input type="file" class="form-control-lg form-control-uniform error" name="image" accept="image/x-png,image/gif,image/jpeg" onchange="readURL(this);">
-                    <span class="filename" style="user-select: none;">No file selected</span>
-                    <span class="action btn btn-light" style="user-select: none;">Choose File</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label">Slider Image:</label>
-              <div class="col-lg-9">
-                <img class="slider-preview-slider_image hidden">
-                <div class="uploader">
-                  <div class="uniform-uploader">
-                    <input type="file" class="form-control-lg form-control-uniform error" name="slider_image" accept="image/x-png,image/gif,image/jpeg" onchange="readSliderURL(this);">
-                    <span class="filename" style="user-select: none;">No file selected</span>
-                    <span class="action btn btn-light" style="user-select: none;">Choose File</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label">Status</label>
-              <div class="col-lg-9">
-                <div class="checkbox checkbox-switchery mt-2">
-                  <label>
-                    <input value="1" type="checkbox" class="switchery-primary error" checked="checked" name="is_active" data-switchery="true">
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="text-right">
-              <button type="submit" class="btn btn-primary">ADD New Service<i class="icon-database-insert ml-1"></i></button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="row">
+		<div class="col-md-7">
+			<div class="card">
+				<div class="card-body">
+					<form class="jquery-validation-form" action="{{ route('user.add') }}" id="create_user" method="POST">
+						@csrf
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Product service Name:</label>
+							<div class="col-lg-9">
+								<input value="{{ old('name') }}" type="text" class="form-control form-control-lg" name="product-service-name"
+								placeholder="enter product/service name" >
+							</div>
+						</div>
+             
+						<div class="form-group row">
+            <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Product /Service Plan</label>
+            <div class="col-lg-9">
+          <select class="form-control form-control-lg mb-3" aria-label=".form-select-lg example">
+            <option selected>Monthly</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          </div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Product /Service Charge</label>
+							<div class="col-lg-9">
+								<input value="{{ old('product-service-charge') }}" type="text" class="form-control form-control-lg" name="product-service-charge"
+								placeholder="Enter product/service charge" >
+								@error('aadhar')<label id="type-error" class="error" for="type">{{ $message }}</label>@enderror
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Description:</label>
+							<div class="col-lg-9">
+								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3">Decription</textarea>
+								@error('description')<label id="type-error" class="error" for="type">{{ $message }}</label>@enderror
+							</div>
+						</div>
+						<div class="text-left">
+							<button type="submit" class="btn btn-primary">
+								submit
+
+							</button>
+							<button type="submit" class="btn btn-primary">
+								cancel
+
+							</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 @endsection
 @section('scripts')
