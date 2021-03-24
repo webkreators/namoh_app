@@ -32,9 +32,10 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/users', [ UserController::class, 'list' ])->name('users');
         Route::get('/users/delete/{id}', [ UserController::class, 'delete' ])->name('users.delete');
         Route::get('/users/add', [ UserController::class, 'addUser' ])->name('user.add');
-        Route::post('/users', [ UserController::class, 'saveUser' ])->name('user.post');
+        Route::post('/users', [ UserController::class, 'create' ])->name('user.post');
         Route::get('/users/{id}/edit', [ UserController::class, 'edit' ])->name('user.edit');
         Route::put('/users/{id}', [ UserController::class, 'update' ])->name('user.update');
+        Route::get('/users/{id}/delete', [ UserController::class, 'delete' ])->name('user.delete');
 
         Route::get('/customers', [ CustomerController::class, 'list' ])->name('customers');
         Route::get('/customers/delete/{id}', [ CustomerController::class, 'delete' ])->name('customers.delete');

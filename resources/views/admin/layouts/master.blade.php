@@ -32,6 +32,7 @@
   <script type="text/javascript" src="{{ asset('assets/backend/js/switchery.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/backend/js/widgets.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/backend/js/uniform.min.js') }}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="text/javascript" src="{{ asset('assets/backend/js/jquery.validate.min.js') }}"></script>
   @yield("scripts")
 </body>
