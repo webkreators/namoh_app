@@ -48,45 +48,28 @@ Route::group(['prefix' => 'admin'], function() {
 
         
         Route::get('/edit/customer', 'UserController@editcustomer')->name('editcustomer');
+        
         /** Service routes */
         Route::get('/services', [ ServiceController::class, 'list' ])->name('services');
-        Route::get('/services/edit/{id}', 'ServiceController@edit')->name('service.edit')->middleware('cloudinary.init');
-        Route::get('/services/add', [ ServiceController::class,'addServices' ])->name('service.add');
+        Route::get('/services/edit/{id}', [ ServiceController::class, 'edit' ])->name('services.edit');
+        Route::get('/services/add', [ ServiceController::class, 'create' ])->name('services.create');
         Route::get('/services/delete/{id}', 'ServiceController@delete')->name('service.delete');
-        Route::post('/services', 'ServiceController@addService')->name('service.post')->middleware('cloudinary.init');
-        Route::put('/services/{id}', 'ServiceController@updateService')->name('service.update')->middleware('cloudinary.init');
-        /** users routes */
+        Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+        Route::get('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+        Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
         
+        # Invoices
         Route::get('/invoices', [ InvoiceController::class, 'list' ])->name('invoices');
         Route::get('/invoices/delete/{id}', [ InvoiceController::class, 'delete' ])->name('invoices.delete');
-        Route::get('/invoices/add', [ InvoiceController::class, 'addInvoices' ])->name('invoices.add');
-        Route::post('/invoices', [ InvoiceController::class, 'save' ])->name('invoices.post');
+        Route::get('/invoices/add', [ InvoiceController::class, 'create' ])->name('invoices.add');
+        Route::post('/invoices', [ InvoiceController::class, 'store' ])->name('invoice.store');
         Route::get('/invoices/{id}/edit', [ InvoiceController::class, 'edit' ])->name('invoices.edit');
         Route::put('/invoices/{id}', [ InvoiceController::class, 'update' ])->name('invoices.update');
+        Route::get('/connection-dates', [ InvoiceController::class, 'getConnectionStartEndDates' ])->name('invoice.connection.dates');
 
-        
         Route::get('/users/service-list/{id}', 'UserController@service')->name('user.service');
         Route::post('/users/{id}/document-update', 'UserController@updateDocuments')->name('user.document');
-        /** Order routes */
-        Route::get('/orders', 'OrderController@list')->name('orders.list');
-        Route::get('/orders/edit/{id}', 'OrderController@edit')->name('order.edit');
-        Route::put('/orders/{id}', 'OrderController@update')->name('order.update');
-        Route::get('/orders/item-details/{id}', 'OrderController@orderDetails')->name('orders.order');
-        Route::get('/order/delete/{id}', 'OrderController@delete')->name('order.delete');
-        
-        /** Accounts routes */
-        Route::get('/accounts', 'OrderController@accounts')->name('order.accounts');
-        /**export as excel */
-        Route::get('/export/{type}', 'OrderController@export')->name('order.export');
-        /** Home widget routes */
-        Route::get('/widgets', 'HomeWidgetController@list')->name('widgets.list')->middleware('cloudinary.init');
-        Route::get('/widgets/requests', 'HomeWidgetController@widget_requests')->name('widgets.requests');
-        Route::get('/widgets/requests/delete/{id}', 'HomeWidgetController@widget_request_delete')->name('widgets.request.delete');
-        Route::get('/widgets/add', 'HomeWidgetController@add')->name('widget.add');
-        Route::get('/widgets/edit/{id}', 'HomeWidgetController@edit')->name('widget.edit')->middleware('cloudinary.init');
-        Route::post('/widgets', 'HomeWidgetController@store')->name('widget.post')->middleware('cloudinary.init');
-        Route::get('/widgets/delete/{id}', 'HomeWidgetController@delete')->name('widget.delete');
-        Route::put('/widgets/{id}', 'HomeWidgetController@update')->name('widget.update')->middleware('cloudinary.init');
+ 
         /** Generate invoice */
         Route::get('/generate-invoice/{id}', 'InvoiceController@createInvoice')->name('save.invoice');
         Route::get('/unauthorized-access', 'UnauthorizedAccessController@index')->name('unauthorized');

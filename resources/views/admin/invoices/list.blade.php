@@ -14,7 +14,7 @@
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
-                <span class="font-weight-bold mr-2">Total Customers</span>
+                <span class="font-weight-bold mr-2">Total Invoices</span>
                 <span class="badge badge-primary badge-pill animated flipInX"></span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -24,7 +24,7 @@
                 <a href="{{ route('invoices.add') }}">
                     <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
                         <b><i class="icon-plus2"></i></b>
-                        Add Invoices
+                        Add Invoice
                     </button>
                 </a>
             </div>
