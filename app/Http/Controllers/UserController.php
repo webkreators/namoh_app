@@ -13,7 +13,6 @@ class UserController extends Controller
         $query = DB::table('users');
         if ($request->filled('squery')) $query = $query->where('users.company_name', 'like', '%'.$request->squery.'%')->orWhere('users.company_mobile', 'like', '%'.$request->squery.'%');
         $users_count = $query->count();
-        $user_details = $query->orderBy('users.id', 'DESC')->get();
         $type = $request->type;
         $users = $query->paginate(env('ITEMS_PER_PAGE'));
         return view('admin.users.list', compact('users', 'users_count', 'type'));
