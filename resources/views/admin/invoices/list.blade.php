@@ -15,7 +15,7 @@
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
                 <span class="font-weight-bold mr-2">Total Invoices</span>
-                <span class="badge badge-primary badge-pill animated flipInX"></span>
+                <span class="badge badge-primary badge-pill animated flipInX">{{ $invoices_count }}</span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -32,71 +32,85 @@
     </div>
 </div>
 <div class="content">
-    <form id='user_filters' action="{{ route('invoices') }}" autocomplete="off" method="GET">
-        <div class="form-group row template mt-2">
-            <div class="col-lg-4">
-                <div class="form-group form-group-feedback form-group-feedback-right search-box">
-                    <input type="text" class="form-control form-control-lg " placeholder="Search with user name or mobile" name="squery"
-                        value="{{ request('squery') }}">
-                    <div class="form-control-feedback form-control-feedback-lg mt-0">
-                        <i class="icon-search4"></i>
-                    </div>
+    <form action="" method="GET" _lpchecked="1" id="coupon_list_form">
+        <input type="hidden" name="excel_export" value='0' />
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" name="client_name" class="form-control" placeholder="Search by client name" />
                 </div>
             </div>
-            <div class="col-lg-3">
-                <button type="submit" class="btn btn-primary btn-icon" style="margin-left:0;"><i class="icon-search4"></i></button>
-                <button type="button" id="clear_form" class="btn alpha-pink text-pink-800 btn-icon ml-2"><i class="icon-cross3"></i></button>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="text" name="date_from" class="form-control datepicker" placeholder="Date From" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="text" name="date_to" class="form-control datepicker" placeholder="Date To" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select name="paid_unpaid" class="form-control">
+                        <option value="">Payment Status</option>
+                        <option value="1">Paid</option>
+                        <option value="0">UnPaid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary btn-icon"><i class="icon-search4"></i></button>
+                <button type="button" id='clear_form' class="btn alpha-pink text-pink-800 btn-icon ml-2"><i class="icon-cross3"></i></button>
             </div>
         </div>
     </form>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table invoices-list">
                     <thead>
                         <tr>
-                            <th>Client ID</th>
-                            <th>Client Name</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Contact</th>
-                            <th>Alt. Contact</th>
-                            <th>Aadhar</th>
-                            <th>PAN</th>
-                            <th>GST</th>
-                            <th>DOB</th>
-                            <th>Anniversary</th>
-                            <th>Connection Date</th>
+                            <th>Sr.No</th>
+                            <th>Invoice #</th>
+                            <th>Client #</th>
+                            <th>Payment</th>
                             <th>Remarks</th>
+                            <th>Client</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Bill Details</th>
+                            <th>Grand Total</th>
+                            <th>Valid From</th>
+                            <th>Valid Till</th>
+                            <th>Connection Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                       
+                        @foreach ($invoices as $invoice)
                         <tr>
                             <td>
                                 <a href=""></a>
                             </td>
                             <td></td>
+                            <td>{{ $invoice->customer_email }}</td>
+                            <td>{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</td>
+                            <td>{{ $invoice->remarks }}</td>
+                            <td>{{ $invoice->customer_name }}</td>
+                            <td>{{ $invoice->customer_contact_number }}</td>
+                            <td>{{ $invoice->customer_address }}</td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $invoice->grand_total }}</td>
+                            <td>{{ $invoice->start_date }}</td>
+                            <td>{{ $invoice->end_date }}</td>
+                            <td>{{ $invoice->connection_date }}</td>
                             <td>&nbsp;</td>
                         </tr>
-                        
-                        
+                        @endforeach
                         <tr>
-                            <td colspan="8" class="text-center">No results found</td>
+                            <td colspan="14" class="text-center">No results found</td>
                         </tr>
-                        
                     </tbody>
                 </table>
                 <div class="mt-3">

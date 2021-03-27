@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section("title") Settings - Dashboard
+@section("title") Settings | {{ env('APP_NAME') }}
 @endsection
 @section('content')
 <style>

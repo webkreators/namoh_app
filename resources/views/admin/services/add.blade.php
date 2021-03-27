@@ -16,7 +16,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form class="jquery-validation-form" action="{{ route('services.store') }}" id="service_form" method="POST">
+                    <form class="jquery-validation-form custom-form" action="{{ route('services.store') }}" id="service_form" method="POST">
                         @csrf
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Product service Name:</label>

@@ -16,7 +16,7 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-body">
-                    <form class="jquery-validation-form" action="{{ route('user.post') }}" id="create_user" method="POST">
+                    <form class="jquery-validation-form custom-form" action="{{ route('user.post') }}" id="create_user" method="POST">
                         @csrf
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Name:</label>

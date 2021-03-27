@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section("title") Add Invoice - Dashboard @endsection
+@section("title") Add Invoice | {{ env('APP_NAME') }} @endsection
 @section('content')
 <div class="page-header">
     <div class="page-header-content header-elements-md-inline">
@@ -15,7 +15,7 @@
 <div class="content">
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('invoice.store') }}" method="post">
+            <form action="{{ route('invoice.store') }}" method="post" class="custom-form">
                 @csrf
                 <div class="form-group row">
                     <div class="col-lg-6">

@@ -13,7 +13,11 @@ use Carbon\Carbon;
 class InvoiceController extends Controller
 {
     public function list(Request $request) {
-        return view('admin.invoices.list');
+        $query = DB::table('invoices')->join('customers', 'invoices.client_id', '=', 'customers.id');
+        if ($request->filled('client_name')) $query = $query->where('customers.customer_name', 'like', '%'.$request->squery.'%');
+        $invoices_count = $query->count();
+        $invoices = $query->paginate(env('ITEMS_PER_PAGE'));
+        return view('admin.invoices.list', compact('invoices', 'invoices_count'));
     }
     
     public function create(Request $request) {
