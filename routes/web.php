@@ -36,13 +36,14 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/users/{id}/edit', [ UserController::class, 'edit' ])->name('user.edit');
         Route::put('/users/{id}', [ UserController::class, 'update' ])->name('user.update');
         Route::get('/users/{id}/delete', [ UserController::class, 'delete' ])->name('user.delete');
-
+        /** Customers routes */
         Route::get('/customers', [ CustomerController::class, 'list' ])->name('customers');
         Route::get('/customers/delete/{id}', [ CustomerController::class, 'delete' ])->name('customers.delete');
         Route::get('/customers/add', [ CustomerController::class, 'addCustomer' ])->name('customer.add');
-        Route::post('/customers', [ CustomerController::class, 'saveUser' ])->name('customer.post');
+        Route::post('/customers', [ CustomerController::class, 'create' ])->name('customer.post');
         Route::get('/customers/{id}/edit', [ CustomerController::class, 'edit' ])->name('customer.edit');
         Route::put('/customers/{id}', [ CustomerController::class, 'update' ])->name('customer.update');
+        Route::get('/customers/{id}/delete', [ CustomerController::class, 'delete' ])->name('customer.delete');
 
         Route::get('/settings', [ AdminController::class, 'settings' ])->name('settings');
 

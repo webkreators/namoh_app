@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section("title") Users | {{ env('APP_NAME') }} @endsection
+@section("title") Customers | {{ env('APP_NAME') }} @endsection
 @section('content')
 <br>
 <div class="page-header">
@@ -15,7 +15,7 @@
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
                 <span class="font-weight-bold mr-2">Total Customers</span>
-                <span class="badge badge-primary badge-pill animated flipInX">{{ $users_count }}</span>
+                <span class="badge badge-primary badge-pill animated flipInX">{{ $customer_count }}</span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -24,7 +24,7 @@
                 <a href="{{ route('customer.add') }}">
                     <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
                         <b><i class="icon-plus2"></i></b>
-                        Add User
+                        Add Customer
                     </button>
                 </a>
             </div>
@@ -32,11 +32,11 @@
     </div>
 </div>
 <div class="content">
-    <form id='user_filters' action="{{ route('users') }}" autocomplete="off" method="GET">
+    <form id='customer_filters' action="{{ route('customers') }}" autocomplete="off" method="GET">
         <div class="form-group row template mt-2">
             <div class="col-lg-4">
                 <div class="form-group form-group-feedback form-group-feedback-right search-box">
-                    <input type="text" class="form-control form-control-lg " placeholder="Search with user name or mobile" name="squery"
+                    <input type="text" class="form-control form-control-lg " placeholder="Search with customer name or mobile" name="squery"
                         value="{{ request('squery') }}">
                     <div class="form-control-feedback form-control-feedback-lg mt-0">
                         <i class="icon-search4"></i>
@@ -75,7 +75,7 @@
                         @foreach ($customers as $customer)
                         <tr>
                             <td>
-                                <a href="{{ route('user.edit', $customer->id) }}">{{ $customer->customer_email }}</a>
+                                <a href="{{ route('customer.edit', $customer->id) }}">{{ $customer->customer_email }}</a>
                             </td>
                             <td>{{ $customer->customer_name }}</td>
                             <td>{{ $customer->customer_email }}</td>
@@ -89,6 +89,7 @@
                             <td>{{ $customer->anniversary_date }}</td>
                             <td>{{ $customer->connection_date }}</td>
                             <td>{{ $customer->remarks }}</td>
+                            <td><a href="{{ route('customer.delete', $customer->id) }}" class="delete-resource"><i class="icon-trash"></i></a></td>
                             <td>&nbsp;</td>
                         </tr>
                         @endforeach
@@ -110,7 +111,7 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        var form = $('#user_filters');
+        var form = $('#customer_filters');
         $('#clear_form').click(function () {
             form.find('input').val('');
             form.find('select').val('');
