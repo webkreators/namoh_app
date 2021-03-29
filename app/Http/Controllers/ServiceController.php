@@ -33,6 +33,7 @@ class ServiceController extends Controller
 
     public function store(Request $request) {
         Service::create($request->all());
+        return redirect(route('services'));
     }
 
     public function destroy(Request $request, $id) {

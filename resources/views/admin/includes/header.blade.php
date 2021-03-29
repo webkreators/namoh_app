@@ -14,7 +14,7 @@
     </div>
     <div class="d-md-none">
         <button class="navbar-toggler dropdown-toggle" type="button" data-toggle="collapse" data-target="#navbar-mobile">
-            <span>{{ Auth::user()->name }}</span>
+            <span>{{ Auth::user()->company_name }}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-right" id="navbar-mobile">
             <a href="{{ route('logout') }}" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
@@ -27,7 +27,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                    <span>{{ Auth::user()->name }}</span>
+                    <span>{{ Auth::user()->company_name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="{{ route('logout') }}" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="{{ route('invoices') }}" class="navbar-nav-link {{ Request::is('admin/invoices') ? 'active' : '' }}">
+                    <a href="{{ route('invoices') }}" class="navbar-nav-link {{ Request::is('admin/invoices') || Request::is('admin/invoices/add') ? 'active' : '' }}">
                         <i class="icon-list2 mr-2"></i>
                         Invoices
                     </a>

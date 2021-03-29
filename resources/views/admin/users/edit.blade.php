@@ -4,7 +4,7 @@
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
-                <span class="font-weight-bold mr-2">Editing {{ $user->company_name }}</span>
+                <span class="font-weight-bold mr-2">Editing - {{ $user->company_name }}</span>
                 <span class="badge badge-primary badge-pill animated flipInX"></span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -16,7 +16,7 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-body">
-                    <form class="jquery-validation-form" action="{{ route('user.update', $user->id) }}" id="create_user" method="POST">
+                    <form class="jquery-validation-form" action="{{ route('user.update', $user->login_id) }}" id="create_user" method="POST">
                         @method('PUT')
                         @csrf
                         <div class="form-group row">

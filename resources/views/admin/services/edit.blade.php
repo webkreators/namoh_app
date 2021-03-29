@@ -5,7 +5,7 @@
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
-                <span class="font-weight-bold mr-2">Editing {{ $service->product_name }}</span>
+                <span class="font-weight-bold mr-2">Editing - <span class="badge badge-primary badge-pill animated flipInX">{{ $service->product_name }}</span></span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -16,7 +16,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form class="jquery-validation-form" action="{{ route('services.update', $service->id) }}" id="service_form" method="POST">
+                    <form class="jquery-validation-form" action="{{ route('services.update', $service->product_id) }}" id="service_form" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-group row">

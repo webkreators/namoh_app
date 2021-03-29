@@ -454,3 +454,10 @@ hr {
 .invoices-list thead tr th {
     white-space: nowrap;
 }
+span.auth-error {
+    font-size: 12px;
+    color: #f00;
+    text-align: center;
+    display: block;
+    margin-bottom: 1.25rem;
+}

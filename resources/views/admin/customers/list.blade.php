@@ -34,10 +34,9 @@
 <div class="content">
     <form id='customer_filters' action="{{ route('customers') }}" autocomplete="off" method="GET">
         <div class="form-group row template mt-2">
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <div class="form-group form-group-feedback form-group-feedback-right search-box">
-                    <input type="text" class="form-control form-control-lg " placeholder="Search with customer name or mobile" name="squery"
-                        value="{{ request('squery') }}">
+                    <input type="text" class="form-control form-control-lg " placeholder="Search with customer name/mobile/id" name="squery" value="{{ request('squery') }}">
                     <div class="form-control-feedback form-control-feedback-lg mt-0">
                         <i class="icon-search4"></i>
                     </div>
@@ -56,17 +55,17 @@
                     <thead>
                         <tr>
                             <th>Client ID</th>
-                            <th>Client Name</th>
+                            <th style="min-width: 180px;">Client Name</th>
                             <th>Email</th>
-                            <th>Address</th>
+                            <th style="min-width: 300px;">Address</th>
                             <th>Contact</th>
-                            <th>Alt. Contact</th>
+                            <th>Whatsapp Number</th>
                             <th>Aadhar</th>
                             <th>PAN</th>
                             <th>GST</th>
                             <th>DOB</th>
                             <th>Anniversary</th>
-                            <th>Connection Date</th>
+                            <th style="white-space: nowrap;">Connection Date</th>
                             <th>Remarks</th>
                             <th>Action</th>
                         </tr>
@@ -75,7 +74,7 @@
                         @foreach ($customers as $customer)
                         <tr>
                             <td>
-                                <a href="{{ route('customer.edit', $customer->id) }}">{{ $customer->customer_email }}</a>
+                                <a href="{{ route('customer.edit', $customer->client_id) }}">{{ $customer->customer_email }}</a>
                             </td>
                             <td>{{ $customer->customer_name }}</td>
                             <td>{{ $customer->customer_email }}</td>
@@ -85,12 +84,11 @@
                             <td>{{ $customer->aadhar_no }}</td>
                             <td>{{ $customer->pan_no }}</td>
                             <td>{{ $customer->gstin_no }}</td>
-                            <td>{{ $customer->dob }}</td>
-                            <td>{{ $customer->anniversary_date }}</td>
-                            <td>{{ $customer->connection_date }}</td>
+                            <td>{{ $customer->dob != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->dob)->format('d/m/Y') : '-' }}</td>
+                            <td>{{ $customer->anniversary_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->anniversary_date)->format('d/m/Y') : '-' }}</td>
+                            <td>{{ $customer->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $customer->remarks }}</td>
-                            <td><a href="{{ route('customer.delete', $customer->id) }}" class="delete-resource"><i class="icon-trash"></i></a></td>
-                            <td>&nbsp;</td>
+                            <td><a href="{{ route('customer.delete', $customer->client_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a href="{{ route('invoices') }}?client_params={{ $customer->customer_email }}"><i class="icon-list3"></i></a></td>
                         </tr>
                         @endforeach
                         @if (count($customers) == 0)
@@ -100,9 +98,9 @@
                         @endif
                     </tbody>
                 </table>
-                <div class="mt-3">
-                    {{ $customers->appends(request()->except('page'))->links() }}
-                </div>
+            </div>
+            <div class="mt-3">
+                {{ $customers->appends(request()->except('page'))->links() }}
             </div>
         </div>
     </div>
@@ -122,6 +120,21 @@
             form.attr('target', '_blank').submit();
             form.removeAttr('target');
             form.find("input[name='excel_export']").val(0);
+        });
+        $('.delete-resource').click(function(e) {
+            e.preventDefault();
+            var link = $(this).attr('href');
+            swal({
+                title: "Are you sure?",
+                text: "You are about to delete a customer",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    location.href = link;
+                }
+            });
         });
     });
 </script>

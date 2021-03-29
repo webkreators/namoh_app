@@ -9,6 +9,10 @@ use App\Models\InvoiceItem;
 class Invoice extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'invoice_id';
+    protected $table = 'invoice';
+
     protected $fillable = array(
         'client_id',
         'total_amount',
@@ -30,7 +34,9 @@ class Invoice extends Model
         'bank_id',
         'paid_unpaid',
         'financial_year',
-        'invoice_type'
+        'invoice_type',
+        'bill_type',
+        'payment_comment'
     );
 
     public function items() {

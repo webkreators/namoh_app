@@ -67,12 +67,12 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>
-                                <a href="{{ route('services.edit', $service->id) }}">{{ $service->product_name }}</a>
+                                <a href="{{ route('services.edit', $service->product_id) }}">{{ $service->product_name }}</a>
                             </td>
                             <td>{{ App\Models\Service::$plans[$service->product_plan] }}</td>
                             <td>{{ $service->product_charge }}</td>
                             <td>{{ $service->description }}</td>
-                            <td><a href="{{ route('services.destroy', $service->id) }}" class="delete-resource"><i class="icon-trash"></i></a></td>
+                            <td><a href="{{ route('services.destroy', $service->product_id) }}" class="delete-resource"><i class="icon-trash"></i></a></td>
                         </tr>
                         @endforeach
                         @if (count($services) == 0)

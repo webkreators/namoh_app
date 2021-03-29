@@ -69,7 +69,7 @@
                         @foreach ($users as $user)
                         <tr>
                             <td>
-                                <a href="{{ route('user.edit', $user->id) }}">{{ $user->company_name }}</a>
+                                <a href="{{ route('user.edit', $user->login_id) }}">{{ $user->company_name }}</a>
                             </td>
                             <td>{{ $user->company_mobile }}</td>
                             <td>{{ $user->user_name }}</td>
@@ -77,7 +77,7 @@
                             <td>{{ $user->designation }}</td>
                             <td>{{ $user->user_type == 1 ? 'Admin' : 'Manager' }}</td>
                             <td><span class="badge badge-flat border-grey-800 text-default text-capitalize">{{ $user->status == 0 ? 'Yes' : 'No' }}</span></td>
-                            <td><a href="{{ route('user.delete', $user->id) }}" class="delete-resource"><i class="icon-trash"></i></a></td>
+                            <td><a href="{{ route('user.delete', $user->login_id) }}" class="delete-resource"><i class="icon-trash"></i></a></td>
                         </tr>
                         @endforeach
                         @if (count($users) == 0)

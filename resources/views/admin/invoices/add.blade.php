@@ -6,7 +6,6 @@
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
                 <span class="font-weight-bold mr-2">Add New Invoice</span>
-                <!-- <span class="badge badge-primary badge-pill animated flipInX">"Plumbing"</span> -->
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -17,6 +16,8 @@
         <div class="card-body">
             <form action="{{ route('invoice.store') }}" method="post" class="custom-form">
                 @csrf
+                <input type="hidden" name="financial_year" value="{{ $financial_year }}" />
+                <input type="hidden" name="invoice_no" value="{{ $invoice_no }}" />
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <label for="invoiceNumber" class="form-label">Invoice Number</label>
@@ -33,7 +34,7 @@
                         <select class="form-control select2" id="client_id" name="client_id">
                             <option value="">Select Client</option>
                             @foreach ($customers as $customer)
-                            <option data-connection-date="{{ Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') }}" data-number="{{ $customer->customer_contact_number }}" data-address="{{ $customer->customer_address }}" value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                            <option data-connection-date="{{ Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') }}" data-number="{{ $customer->customer_contact_number }}" data-address="{{ $customer->customer_address }}" value="{{ $customer->client_id }}">{{ $customer->customer_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -115,11 +116,9 @@
                         <label for="Service Time" class="form-label">Service Time</label>
                         <select class="form-control" name="service_time" id="service_time">
                             <option selected value="">Select Service Time</option>
-                            <option value="1">Monthly</option>
-                            <option value="3">Quarterly</option> 
-                            <option value="4">Half Yearly</option> 
-                            <option value="2">Yearly</option>
-                            <option value="5">2 Years</option>
+                            @foreach (\App\Models\Service::$plans as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-3">

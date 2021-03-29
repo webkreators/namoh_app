@@ -41,10 +41,5 @@
   $('.form-check-input-styled-custom').uniform({
     wrapperClass: 'border-indigo-400 text-indigo-400'
   });
-  $(document).ready(function() {
-    $('.datepicker').datepicker({
-      dateFormat: 'dd/mm/yy'
-    });
-  });
 </script>
 </html>

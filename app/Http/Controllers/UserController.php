@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function list(Request $request) {
-        $query = DB::table('users');
-        if ($request->filled('squery')) $query = $query->where('users.company_name', 'like', '%'.$request->squery.'%')->orWhere('users.company_mobile', 'like', '%'.$request->squery.'%');
+        $query = DB::table('login');
+        if ($request->filled('squery')) $query = $query->where('login.company_name', 'like', '%'.$request->squery.'%')->orWhere('login.company_mobile', 'like', '%'.$request->squery.'%');
         $users_count = $query->count();
         $type = $request->type;
         $users = $query->paginate(env('ITEMS_PER_PAGE'));

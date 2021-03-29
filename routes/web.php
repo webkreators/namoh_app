@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/customers/add', [ CustomerController::class, 'addCustomer' ])->name('customer.add');
         Route::post('/customers', [ CustomerController::class, 'create' ])->name('customer.post');
         Route::get('/customers/{id}/edit', [ CustomerController::class, 'edit' ])->name('customer.edit');
-        Route::put('/customers/{id}', [ CustomerController::class, 'update' ])->name('customer.update');
+        Route::put('/customers/{id}', [ CustomerController::class, 'update' ])->name('customers.update');
         Route::get('/customers/{id}/delete', [ CustomerController::class, 'delete' ])->name('customer.delete');
 
         Route::get('/settings', [ AdminController::class, 'settings' ])->name('settings');
