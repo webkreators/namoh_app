@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Service;
 use App\Models\TaxSlab;
 use App\Models\Invoice;
+use App\Models\User;
 use App\Models\InvoiceDetail;
 use Carbon\Carbon;
 
@@ -41,7 +42,7 @@ class InvoiceController extends Controller
         $invoice_no = $start;
         return view('admin.invoices.add', compact('customers', 'services', 'tax_slabs', 'invoice_number', 'financial_year', 'invoice_no'));
     }
-
+    
     public function store(Request $request) {
         $params = $request->only('client_id', 'total_amount', 'remarks', 'tax_slab', 'invoice_date', 'connection_date', 'start_date', 'end_date', 
         'financial_year', 'invoice_no', 'grand_total', 'discount', 'service_time', 'paid_unpaid');
@@ -59,8 +60,8 @@ class InvoiceController extends Controller
         $invoice = Invoice::create($params);
         # Creating invoice items
         $iterator = new \MultipleIterator();
-		$iterator->attachIterator(new \ArrayIterator($request->item_id));
-		$iterator->attachIterator(new \ArrayIterator($request->item_price));
+        $iterator->attachIterator(new \ArrayIterator($request->item_id));
+        $iterator->attachIterator(new \ArrayIterator($request->item_price));
         foreach ($iterator as $item) {
             InvoiceDetail::create(array(
                 'invoice_no' => $invoice->invoice_no,
@@ -93,5 +94,63 @@ class InvoiceController extends Controller
             $end_date = Carbon::CreateFromFormat('d/m/Y', $invoice_date)->addYears(2)->format('d/m/Y');
         }
         return response()->json(array('start_date' => $invoice_date, 'end_date' => $end_date));
+    }
+    
+    public function generateInvoice(Request $request, $id) {
+        $invoice = Invoice::find($id);
+        $user = User::find(1);
+        $amount_after_discount = 0;
+        $type = '';
+        if ($invoice->discount > 0) {
+            if ($invoice->discount_in == 1) {
+                $type = "%";
+                $rupee = $invoice->total_amount * $invoice->dicscount / 100;
+                $amount_after_discount = $invoice->total_amount - $rupee;
+            } else if ($invoice->discount_in == 2) {
+                $type = "Rupee";
+                $amount_after_discount = $invoice->total_amount - $invoice->discount;
+            }
+        }
+        $number = $invoice->grand_total;
+        $no = round($number);
+        $point = round($number - $no, 2) * 100;
+        $hundred = null;
+        $digits_1 = strlen($no);
+        $i = 0;
+        $str = array();
+        $words = array('0' => '', '1' => 'One', '2' => 'Two',
+        '3' => 'Three', '4' => 'Four', '5' => 'Five', '6' => 'Six',
+        '7' => 'Seven', '8' => 'Eight', '9' => 'Nine',
+        '10' => 'Ten', '11' => 'Eleven', '12' => 'Twelve',
+        '13' => 'Thirteen', '14' => 'Fourteen',
+        '15' => 'Fifteen', '16' => 'Sixteen', '17' => 'Seventeen',
+        '18' => 'Eighteen', '19' =>'Nineteen', '20' => 'Twenty',
+        '30' => 'Thirty', '40' => 'Forty', '50' => 'Fifty',
+        '60' => 'Sixty', '70' => 'Seventy',
+        '80' => 'Eighty', '90' => 'Ninety');
+        $digits = array('', 'Hundred', 'Thousand', 'Lakh', 'Crore');
+        while ($i < $digits_1) {
+            $divider = ($i == 2) ? 10 : 100;
+            $number = floor($no % $divider);
+            $no = floor($no / $divider);
+            $i += ($divider == 10) ? 1 : 2;
+            if ($number) {
+                $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
+                $hundred = ($counter == 1 && $str[0]) ? ' and ' : null;
+                $str [] = ($number < 21) ? $words[$number] . " " . $digits[$counter] . $plural . " " . $hundred : $words[floor($number / 10) * 10] . " " . $words[$number % 10] . " " . $digits[$counter] . $plural . " " . $hundred;
+            } else $str[] = null;
+        }
+        $str = array_reverse($str);
+        $in_words = implode('', $str);
+        $points = ($point) ? "." . $words[$point / 10] . " " . $words[$point = $point % 10] : '';
+        $terms = DB::table('terms_condition')->get();
+        $bank_details = Db::table('bank_details')->first();
+        #return view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'));
+        $mpdf = new \Mpdf\Mpdf(['format' => 'A4', 'mode' => 'c']);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->list_indent_first_level = 0;
+        $html = view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'))->render();
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 }

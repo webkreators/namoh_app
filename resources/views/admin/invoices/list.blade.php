@@ -93,7 +93,7 @@
                             <td><a href="{{ route('customer.edit', $invoice->client_id) }}">{{ $invoice->customer_email }}</a></td>
                             <td>{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</td>
                             <td>{{ $invoice->customer_name }}</td>
-                            <td>{{ $invoice->grand_total }}</td>
+                            <td><span style="font-family: Arial;">&#8377;</span>{{ number_format($invoice->grand_total, 2) }}</td>
                             <td>{{ $invoice->start_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->start_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->end_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->end_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->connection_date)->format('d/m/Y') : '-' }}</td>
@@ -101,7 +101,7 @@
                             <td>{{ $invoice->customer_address }}</td>
                             <td></td>
                             <td>{{ $invoice->remarks }}</td>
-                            <td>&nbsp;</td>
+                            <td><a href="{{ route('customer.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a></td>
                         </tr>
                         @endforeach
                         @if (count($invoices) == 0)
@@ -138,6 +138,21 @@
             dateFormat: 'dd/mm/yy',
             changeYear: true,
             yearRange: "2000:c"
+        });
+        $('.delete-resource').click(function(e) {
+            e.preventDefault();
+            var link = $(this).attr('href');
+            swal({
+                title: "Are you sure?",
+                text: "You are about to delete an invoice",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    location.href = link;
+                }
+            });
         });
     });
 </script>

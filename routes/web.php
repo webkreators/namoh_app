@@ -67,12 +67,9 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/invoices/{id}/edit', [ InvoiceController::class, 'edit' ])->name('invoices.edit');
         Route::put('/invoices/{id}', [ InvoiceController::class, 'update' ])->name('invoices.update');
         Route::get('/connection-dates', [ InvoiceController::class, 'getConnectionStartEndDates' ])->name('invoice.connection.dates');
+        Route::get('/generate-invoice/{id}', [ InvoiceController::class, 'generateInvoice' ])->name('invoice.generate');
 
-        Route::get('/users/service-list/{id}', 'UserController@service')->name('user.service');
-        Route::post('/users/{id}/document-update', 'UserController@updateDocuments')->name('user.document');
- 
         /** Generate invoice */
-        Route::get('/generate-invoice/{id}', 'InvoiceController@createInvoice')->name('save.invoice');
         Route::get('/unauthorized-access', 'UnauthorizedAccessController@index')->name('unauthorized');
         Route::get('/logout', 'LoginController@logout')->name('logout');
     });
