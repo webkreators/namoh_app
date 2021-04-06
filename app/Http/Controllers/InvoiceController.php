@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\User;
 use App\Models\InvoiceDetail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class InvoiceController extends Controller
 {
@@ -45,32 +46,69 @@ class InvoiceController extends Controller
     
     public function store(Request $request) {
         $params = $request->only('client_id', 'total_amount', 'remarks', 'tax_slab', 'invoice_date', 'connection_date', 'start_date', 'end_date', 
-        'financial_year', 'invoice_no', 'grand_total', 'discount', 'service_time', 'paid_unpaid');
+        'financial_year', 'invoice_no', 'grand_total', 'discount', 'service_time', 'paid_unpaid', 'discount_in');
         $tax_slab = TaxSlab::find($request->tax_slab);
         $params['CGST'] = $params['SGST'] = $tax_slab->tax_per / 2;
         $params['tax_per'] = $tax_slab->tax_per;
         $params['bank_id'] = $params['invoice_type'] = 1;
         $params['router_free'] = $params['bill_type'] = 0;
         $params['payment_comment'] = '-';
-        if ($params['discount'] != 0) $params['discount_in'] = 1;
         foreach (array('connection_date', 'invoice_date', 'start_date', 'end_date') as $date) {
             $params[$date] = Carbon::CreateFromFormat('d/m/Y', $params[$date])->format('Y-m-d');
         }
         if ($params['service_time'] == 2) $params['router_free'] = 1;
+        if (!$request->filled('remarks')) $params['remarks'] = '';
         $invoice = Invoice::create($params);
         # Creating invoice items
-        $iterator = new \MultipleIterator();
-        $iterator->attachIterator(new \ArrayIterator($request->item_id));
-        $iterator->attachIterator(new \ArrayIterator($request->item_price));
-        foreach ($iterator as $item) {
+        for ($i = 0; $i < $request->no_items; $i++) {
             InvoiceDetail::create(array(
                 'invoice_no' => $invoice->invoice_no,
                 'insert_id' => $invoice->invoice_id,
-                'goods_id' => $item[0],
-                'goods_amount' => $item[1],
+                'goods_id' => $request->{"item_id_{$i}"},
+                'goods_amount' => $request->{"item_price_{$i}"},
                 'invoice_date' => $params['invoice_date']
             ));
         }
+        Session::flash('alert', 'Invoice has been added successfully!');
+        return redirect(route('invoices'));
+    }
+
+    public function edit(Request $request, $id) {
+        $invoice = Invoice::find($id);
+        $customers = Customer::all();
+        $tax_slabs = TaxSlab::all();
+        $services = Service::all();
+        return view('admin.invoices.edit', compact('invoice', 'customers', 'tax_slabs', 'services'));
+    }
+
+    public function update(Request $request, $id) {
+        $params = $request->only('client_id', 'total_amount', 'remarks', 'tax_slab', 'invoice_date', 'connection_date', 'start_date', 'end_date', 
+        'financial_year', 'invoice_no', 'grand_total', 'discount', 'service_time', 'paid_unpaid', 'discount_in');
+        $tax_slab = TaxSlab::find($request->tax_slab);
+        $params['CGST'] = $params['SGST'] = $tax_slab->tax_per / 2;
+        $params['tax_per'] = $tax_slab->tax_per;
+        $params['bank_id'] = $params['invoice_type'] = 1;
+        $params['router_free'] = $params['bill_type'] = 0;
+        $params['payment_comment'] = '-';
+        foreach (array('connection_date', 'invoice_date', 'start_date', 'end_date') as $date) {
+            $params[$date] = Carbon::CreateFromFormat('d/m/Y', $params[$date])->format('Y-m-d');
+        }
+        if ($params['service_time'] == 2) $params['router_free'] = 1;
+        if (!$request->filled('remarks')) $params['remarks'] = '';
+        $invoice = Invoice::find($id);
+        $invoice->update($params);
+        $invoice->items()->delete();
+        # Creating invoice items
+        for ($i = 0; $i < $request->no_items; $i++) {
+            InvoiceDetail::create(array(
+                'invoice_no' => $invoice->invoice_no,
+                'insert_id' => $invoice->invoice_id,
+                'goods_id' => $request->{"item_id_{$i}"},
+                'goods_amount' => $request->{"item_price_{$i}"},
+                'invoice_date' => $params['invoice_date']
+            ));
+        }
+        Session::flash('alert', 'Invoice has been updated successfully!');
         return redirect(route('invoices'));
     }
     
@@ -99,7 +137,7 @@ class InvoiceController extends Controller
     public function generateInvoice(Request $request, $id) {
         $invoice = Invoice::find($id);
         $user = User::find(1);
-        $amount_after_discount = 0;
+        $amount_after_discount = $invoice->total_amount;
         $type = '';
         if ($invoice->discount > 0) {
             if ($invoice->discount_in == 1) {
@@ -152,5 +190,11 @@ class InvoiceController extends Controller
         $html = view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'))->render();
         $mpdf->WriteHTML($html);
         $mpdf->Output();
+    }
+
+    public function delete(Request $request, $id) {
+        Invoice::find($id)->delete();
+        Session::flash('alert', 'Invoice has been deleted successfully!');
+        return redirect(route('invoices'));
     }
 }

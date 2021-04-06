@@ -366,6 +366,7 @@ hr {
     color: #f00;
     font-size: 11px;
     top: 100%;
+    left: 10px;
 }
 .service-box .selection .select2-search .select2-search__field {
     padding: .4700rem 1rem !important;
@@ -460,4 +461,8 @@ span.auth-error {
     text-align: center;
     display: block;
     margin-bottom: 1.25rem;
+}
+.alert.alert-success {
+    margin-bottom: 0;
+    margin-top: 20px;
 }

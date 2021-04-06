@@ -122,7 +122,7 @@
         <table class="heading" style="width:100%;">
             <tr>
                 <td style="width:58%;">
-                    <h2 class="heading" ><span style="font-size:18px;">INVOICE No.</span> #{{ $invoice->financial_year . $invoice->invoice_no }}</h2><br/>
+                    <h2 class="heading" ><span style="font-size:18px;">INVOICE No.</span> #{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}</h2><br/>
                     <h1 class="heading" style="font-size:16px;"><b>{{ $user->company_name }}</b></h1>
                     <h1 class="heading" style="font-size:12px;"><i>Formerly known as: SHRI SAI NATH BROADBAND PVT. LTD. </i></h1>
                     <span style="font-size: 11pt;" class="client">{{ $user->address }}</span><br />

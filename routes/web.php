@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/customers/{id}/delete', [ CustomerController::class, 'delete' ])->name('customer.delete');
 
         Route::get('/settings', [ AdminController::class, 'settings' ])->name('settings');
+        Route::put('/settings', [ AdminController::class, 'updateSettings' ])->name('settings.update');
 
         
         Route::get('/edit/customer', 'UserController@editcustomer')->name('editcustomer');
@@ -71,7 +72,7 @@ Route::group(['prefix' => 'admin'], function() {
 
         /** Generate invoice */
         Route::get('/unauthorized-access', 'UnauthorizedAccessController@index')->name('unauthorized');
-        Route::get('/logout', 'LoginController@logout')->name('logout');
+        Route::get('/logout', [ LoginController::class, 'logout'])->name('logout');
     });
     Route::get('/showvendors/{id}', 'api\v1\OrderController@sendNotificationsToAllVendors')->name('notifications');
 });

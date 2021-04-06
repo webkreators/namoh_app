@@ -1,11 +1,10 @@
 @extends('admin.layouts.master')
 @section("title") Users | {{ env('APP_NAME') }} @endsection
 @section('content')
-<br>
 <div class="page-header">
-    @if (Session::get('state'))
+    @if (Session::has('alert'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ Session::get('state') }}
+        {{ Session::get('alert') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>

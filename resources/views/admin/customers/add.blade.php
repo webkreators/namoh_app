@@ -109,7 +109,7 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Birth Date</label>
                             <div class="col-lg-8">
-                                <input value="{{ old('DOB') }}" type="date" class="form-control date-picker" name="dob" placeholder="Select date of birth" >
+                                <input value="{{ old('DOB') }}" type="text" class="form-control date-picker" name="dob" placeholder="Select date of birth" >
                             </div>
                         </div>
                         <div class="form-group row">

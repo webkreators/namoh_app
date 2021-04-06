@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
@@ -29,6 +30,7 @@ class CustomerController extends Controller
         if ($request->filled('anniversary_date')) $params['anniversary_date'] = Carbon::CreateFromFormat('d/m/Y', $request->anniversary_date)->format('Y-m-d');
         if ($request->filled('dob')) $params['dob'] = Carbon::CreateFromFormat('d/m/Y', $request->dob)->format('Y-m-d');
         Customer::create($params);
+        Session::flash('alert', 'Customer has been added successfully!');
         return redirect(route('customers'));
     }
     
@@ -44,11 +46,13 @@ class CustomerController extends Controller
         if ($request->filled('anniversary_date')) $params['anniversary_date'] = Carbon::CreateFromFormat('d/m/Y', $request->anniversary_date)->format('Y-m-d');
         if ($request->filled('dob')) $params['dob'] = Carbon::CreateFromFormat('d/m/Y', $request->dob)->format('Y-m-d');
         $customer->update($params);
+        Session::flash('alert', 'Customer has been updated successfully!');
         return redirect(route('customers'));
     }
     
     public function delete(Request $request, $id) {
         Customer::find($id)->delete();
+        Session::flash('alert', 'Customer has been deleted successfully!');
         return redirect(route('customers'));
     }
 }

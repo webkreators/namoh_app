@@ -1,11 +1,11 @@
 @extends('admin.layouts.master')
-@section("title") Add Invoice | {{ env('APP_NAME') }} @endsection
+@section("title") Edit Invoice | {{ env('APP_NAME') }} @endsection
 @section('content')
 <div class="page-header">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
-                <span class="font-weight-bold mr-2">Add New Invoice</span>
+                <span class="font-weight-bold mr-2">Edit Invoice</span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -14,19 +14,18 @@
 <div class="content">
     <div class="card">
         <div class="card-body">
-            <form id="invoice-form" action="{{ route('invoice.store') }}" method="post" class="custom-form jquery-validation-form">
+            <form id="invoice-form" action="{{ route('invoices.update', $invoice->invoice_id) }}" method="post" class="custom-form jquery-validation-form">
                 @csrf
-                <input type="hidden" name="financial_year" value="{{ $financial_year }}" />
-                <input type="hidden" name="invoice_no" value="{{ $invoice_no }}" />
-                <input type="hidden" name="no_items" id="no_items" value="1" />
+                @method('PUT')
+                <input type="hidden" name="no_items" id="no_items" value="{{ count($invoice->items) }}" />
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <label for="invoiceNumber" class="form-label">Invoice Number</label>
-                        <input value="{{ $invoice_number }}" type="text" readonly class="form-control" id="invoiceNumber" name="invoiceNumber" placeholder="Invoice Number">
+                        <input value="{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}" type="text" readonly class="form-control" id="invoiceNumber" name="invoiceNumber" placeholder="Invoice Number">
                     </div>
                     <div class="col-lg-6">
                         <label for="invoice_date" class="form-label">Invoice Date</label>
-                        <input type="text" class="form-control" id="invoice_date" name="invoice_date">
+                        <input value="{{ \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->invoice_date)->format('d/m/Y') }}" type="text" class="form-control" id="invoice_date" name="invoice_date">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -35,7 +34,7 @@
                         <select class="form-control select2" id="client_id" name="client_id">
                             <option value="">Select Client</option>
                             @foreach ($customers as $customer)
-                            <option data-connection-date="{{ Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') }}" data-number="{{ $customer->customer_contact_number }}" data-address="{{ $customer->customer_address }}" value="{{ $customer->client_id }}">{{ $customer->customer_name }}</option>
+                            <option {{ $customer->client_id == $invoice->client_id ? 'selected' : '' }} data-connection-date="{{ Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') }}" data-number="{{ $customer->customer_contact_number }}" data-address="{{ $customer->customer_address }}" value="{{ $customer->client_id }}">{{ $customer->customer_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -51,25 +50,47 @@
                 <legend class="font-weight-semibold font-size-md text-uppercase mt-1 mb-1" style="border-bottom: none;">
                     Invoice Items:
                 </legend>
-                <div class="invoice-items"></div>
+                <div class="invoice-items">
+                    @foreach ($invoice->items as $key => $invoice_item)
+                    <div class="form-group row invoice-item">
+                        <div class="col-lg-6">
+                            <label class="col-form-label" for="">Service Name:</label>
+                            <select id="item_id_{{ $key }}" name="item_id_{{ $key }}" class="form-control invoice-item-name">
+                                <option value="">-Select Service-</option>
+                                @foreach ($services as $service)
+                                <option {{ $invoice_item->goods_id == $service->product_id ? 'selected' : '' }} data-charge="{{ $service->product_charge }}" value="{{ $service->product_id }}">{{ $service->product_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-5">
+                            <label class="col-form-label">Amount:</label>
+                            <input value="{{ $invoice_item->goods_amount }}" id='item_price_{{ $key }}' type="text" readonly class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
+                        </div>
+                        <div class="col-lg-1">
+                            <label class="col-form-label" style="width: 100%;">&nbsp;</label>
+                            <button type="button" class="btn btn-danger remove-invoice-row"><i class="icon-trash ml-1"></i></i></button>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
                 <div class="text-left mt-3 mb-2">
                     <button type="button" class="btn alpha-blue text-blue-800 border-blue-600 legitRipple add-new-item">Add Item<i class="icon-plus22 ml-1"></i></button>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-4">
                         <label for="Gross Amount" class="form-label">Gross Amount</label>
-                        <input readonly type="text" class="form-control" id="gross_amount" name="total_amount" />
+                        <input value="{{ $invoice->total_amount }}" readonly type="text" class="form-control" id="gross_amount" name="total_amount" />
                     </div>
                     <div class="col-lg-4">
                         <label for="Discount" class="form-label">Discount</label>
-                        <input type="text" class="form-control" id="discount" name="discount">
+                        <input value="{{ floor($invoice->discount) }}" type="text" class="form-control" id="discount" name="discount">
                     </div>
                     <div class="col-lg-4">
                         <label for="Discount" class="form-label">Discount Type</label>
                         <select name="discount_in" class="form-control discount-type">
                             <option value="">-Select Item-</option>
-                            <option value="1">Percentage</option>
-                            <option value="2">Fixed Amount</option>
+                            <option value="1" {{ $invoice->discount_in == 1 ? 'selected' : '' }}>Percentage</option>
+                            <option value="2" {{ $invoice->discount_in == 2 ? 'selected' : '' }}>Fixed Amount</option>
                         </select>
                     </div>
                 </div>
@@ -79,13 +100,13 @@
                         <select class="form-control" id="tax_slab" name="tax_slab">
                             <option selected data-percentage="0" value="">Select Tax Slab</option>
                             @foreach ($tax_slabs as $tax_slab)
-                            <option data-percentage="{{ $tax_slab->tax_per }}" value="{{ $tax_slab->id }}">{{ $tax_slab->slab_type }}</option>
+                            <option {{ $invoice->tax_slab == $tax_slab->id ? 'selected' : '' }} data-percentage="{{ $tax_slab->tax_per }}" value="{{ $tax_slab->id }}">{{ $tax_slab->slab_type }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="Grand Total" class="form-label">Grand Total</label>
-                        <input readonly type="text" class="form-control" id="grand_total" name="grand_total" />
+                        <input value="{{ $invoice->grand_total }}" readonly type="text" class="form-control" id="grand_total" name="grand_total" />
                     </div>
                     <div class="col-md-4">
                         <label for="Connection Date" class="form-label">Connection Date</label>
@@ -98,7 +119,7 @@
                         <select class="form-control" name="service_time" id="service_time">
                             <option selected value="">Select Service Time</option>
                             @foreach (\App\Models\Service::$plans as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
+                            <option {{ $invoice->service_time == $key ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -114,19 +135,19 @@
                         <label for="To Date" class="form-label">Invoice Pay Status</label>
                         <select class="form-control" name="paid_unpaid">
                             <option selected value="">Select Payment Status</option>
-                            <option value="1">Paid</option>
-                            <option value="0">Unpaid</option>
+                            <option {{ $invoice->paid_unpaid == 1 ? 'selected' : '' }} value="1">Paid</option>
+                            <option {{ $invoice->paid_unpaid == 0 ? 'selected' : '' }} value="0">Unpaid</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <label for="Remarks" class="form-label">Remarks</label>
-                        <textarea class="form-control" placeholder="Leave a comment here" id="remarks" name="remarks" style="height: 100px"></textarea>
+                        <textarea class="form-control" placeholder="Leave a comment here" id="remarks" name="remarks" style="height: 100px">{{ $invoice->remarks }}</textarea>
                     </div>
                 </div>
                 <div class="text-left mt-3 mb-2">
-                    <button type="submit" class="btn btn-primary">Create New Invoice<i class="icon-database-insert ml-1"></i></button>
+                    <button type="submit" class="btn btn-primary">Update Invoice<i class="icon-database-insert ml-1"></i></button>
                 </div>
             </form>
         </div>
@@ -157,9 +178,13 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
-        var counter = 1, itemCounter = 0;
+        var counter = 1, itemCounter = $('#no_items').val();
         var template = jQuery.validator.format($.trim($("#addChild").html()));
         $('.select2').select2();
+        setTimeout(() => {
+            $('#client_id').trigger('change');
+            $('#service_time').trigger('change');
+        }, 100);
         $('#invoice_date, #start_date, #end_date').datepicker({
             dateFormat: 'dd/mm/yy'
         });
@@ -206,9 +231,6 @@
             $('#no_items').val(itemCounter);
             calculateGrossAmount();
         });
-        setTimeout(() => {
-            $('.add-new-item').trigger('click');  
-        }, 1000);
         var grossAmount = 0;
         function calculateGrossAmount() {
             var sum = 0, afterDiscount = 0, discount = 0, itemPrice = 0;
@@ -298,8 +320,7 @@
                 resetCounting();
                 form.submit();
             }
-        });
-        
+        }); 
     });
 </script>
 @endsection

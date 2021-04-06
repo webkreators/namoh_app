@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -24,6 +25,7 @@ class UserController extends Controller
 
     public function create(Request $request) {
         User::create($request->all());
+        Session::flash('alert', 'User has been added successfully!');
         return redirect(route('users'));
     }
 
@@ -40,12 +42,14 @@ class UserController extends Controller
         } else {
             unset($params['password']);
         }
+        Session::flash('alert', 'User has been updated successfully!');
         $user->update($params);
         return redirect(route('users'));
     }
 
     public function delete(Request $request, $id) {
         User::find($id)->delete();
+        Session::flash('alert', 'User has been deleted successfully!');
         return redirect(route('users'));
     }
 }

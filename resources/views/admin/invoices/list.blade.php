@@ -1,11 +1,10 @@
 @extends('admin.layouts.master')
 @section("title") Invoices | {{ env('APP_NAME') }} @endsection
 @section('content')
-<br>
 <div class="page-header">
-    @if (Session::get('state'))
+    @if (Session::get('alert'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ Session::get('state') }}
+        {{ Session::get('alert') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -101,7 +100,7 @@
                             <td>{{ $invoice->customer_address }}</td>
                             <td></td>
                             <td>{{ $invoice->remarks }}</td>
-                            <td><a href="{{ route('customer.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a></td>
+                            <td><a href="{{ route('invoices.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a></td>
                         </tr>
                         @endforeach
                         @if (count($invoices) == 0)

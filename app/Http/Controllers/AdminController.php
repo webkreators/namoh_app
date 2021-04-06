@@ -19,6 +19,12 @@ class AdminController extends Controller
     }
 
     public function settings(Request $request) {
-        return view('admin.settings');
+        $bank_details = DB::table('bank_details')->first();
+        return view('admin.settings', compact('bank_details'));
+    }
+
+    public function updateSettings(Request $request) {
+        DB::table('bank_details')->where('bank_id', 1)->update($request->only('beneficiary_name', 'bank_name', 'account_no', 'branch', 'ifsc_code'));
+        return redirect(route('settings'));
     }
 }
