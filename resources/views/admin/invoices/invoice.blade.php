@@ -233,7 +233,7 @@
                     <td valign="top" style="width:50%;">
                         <ul>
                             @foreach ($terms as $term)
-                            <li>{{ $term->terms_condition }}</li>
+                            <li>{!! $term->terms_condition !!}</li>
                             @endforeach                                            
                         </ul>
                     </td>

@@ -69,6 +69,7 @@ Route::group(['prefix' => 'admin'], function() {
         Route::put('/invoices/{id}', [ InvoiceController::class, 'update' ])->name('invoices.update');
         Route::get('/connection-dates', [ InvoiceController::class, 'getConnectionStartEndDates' ])->name('invoice.connection.dates');
         Route::get('/generate-invoice/{id}', [ InvoiceController::class, 'generateInvoice' ])->name('invoice.generate');
+        Route::get('/generate-invoices', [ InvoiceController::class, 'generateBulkInvoices' ])->name('invoices.bulk.generate');
 
         /** Generate invoice */
         Route::get('/unauthorized-access', 'UnauthorizedAccessController@index')->name('unauthorized');
