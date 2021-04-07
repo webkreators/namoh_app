@@ -15,13 +15,13 @@
             margin:0;
             padding:0;
             font-family:Arial;
-            font-size:10pt;
+            font-size: 8pt;
             color:#000;
         }
         body {
             width: 100%;
             font-family: Arial;
-            font-size:10pt;
+            font-size: 8pt;
             margin:0;
             padding:0;
         }
@@ -122,21 +122,20 @@
         <table class="heading" style="width:100%;">
             <tr>
                 <td style="width:58%;">
-                    <h2 class="heading" ><span style="font-size:18px;">INVOICE No.</span> #{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}</h2><br/>
-                    <h1 class="heading" style="font-size:16px;"><b>{{ $user->company_name }}</b></h1>
+                    <h2 class="heading" ><span style="font-size:15px;">INVOICE No.</span> #{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}</h2><br/>
+                    <h1 class="heading" style="font-size:14px;"><b>{{ $user->company_name }}</b></h1>
                     <h1 class="heading" style="font-size:12px;"><i>Formerly known as: SHRI SAI NATH BROADBAND PVT. LTD. </i></h1>
-                    <span style="font-size: 11pt;" class="client">{{ $user->address }}</span><br />
-                    <span style="font-size: 11pt;">Udaipur, Rajasthan 313001<br />
+                    <span style="font-size: 9pt;" class="client">{{ $user->address }}</span><br />
+                    <span style="font-size: 9pt;">Udaipur, Rajasthan 313001<br />
                         Contact&nbsp;&nbsp;: {{ $user->company_mobile }}<br/>
                         Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $user->email_invoice }}<br />
                         GSTIN&nbsp;&nbsp;&nbsp;: {{ $user->gst_number }}<br />
                         Pan No&nbsp;&nbsp;: {{ $user->pan_no }}<br />
                         Website&nbsp;: {{ $user->website }}<br /><br /> 
                     </span>
-                    <br/>
-                    <h1 class="heading" ><u><span style="font-size:12pt;">BILL TO :</span></u></h1>
-                    <span style="font-size: 11pt;">Client ID : {{ $invoice->customer->customer_email }}</span><br />
-                    <span style="font-size: 11pt;"><b>{{ $invoice->customer->name_title . ' ' . $invoice->customer->customer_name }}</b>
+                    <h1 class="heading" ><u><span style="font-size:11pt;">BILL TO :</span></u></h1>
+                    <span style="font-size: 9pt;">Client ID : {{ $invoice->customer->customer_email }}</span><br />
+                    <span style="font-size: 9pt;"><b>{{ $invoice->customer->name_title . ' ' . $invoice->customer->customer_name }}</b>
                         <br />
                         {{ $invoice->customer->customer_address }}<br />
                         @if (!empty($invoice->customer->gstin_no))
@@ -156,7 +155,7 @@
                     <br/> 
                     <h2 class=""><span style="font-size:10pt; text-align:right" >Start Date : {{ $invoice->start_date }}</span></h2>
                     <h2 class="alignright"><span style="font-size:10pt;">End Date : {{ $invoice->end_date }}</span></h2>
-                    <img src="{{ asset('assets/backend/img/72142.jpg') }}" height="150px" width="50%">
+                    <img src="{{ public_path('assets/backend/img/72142.jpg') }}" height="150px" width="50%">
                 </td>
             </tr>
         </table>
@@ -170,8 +169,8 @@
                     </tr>
                     @foreach ($invoice->items as $invoice_item)
                     <tr>
-                        <td scope="col"style="font-size: 10pt;">{{ $invoice_item->item->product_name }}<br/>
-                            {{ $invoice_item->item->description }}
+                        <td scope="col"style="font-size: 10pt;">{{ $invoice_item->item->product_name }}
+                            [{{ $invoice_item->item->description }}]
                         </td>
                         <td scope="col">INR</td>
                         <td scope="col">{{ number_format($invoice_item->goods_amount, 2) }}</td>
@@ -218,7 +217,7 @@
             <div id="invoice_total" style="margin-top:3px;">
                 <table>
                     <tr>
-                        <td style="text-align:left; padding-left:10px;width:50%;font-size:10pt;">In Words : {{ $in_words }} Rupees Only</td>
+                        <td style="text-align:left; padding-left:10px;width:50%;font-size:9pt;">In Words : {{ $in_words }} Rupees Only</td>
                         <td style="width:25%;">In figures</td>
                         <td style="width:25%;"><b>{{ number_format($invoice->grand_total, 2) }}</b></td>
                     </tr>
@@ -252,7 +251,7 @@
             <br/>
             <table style="width:100%; height:20mm;text-align:center;">
                 <tr><td style="font-size:6.5pt;"><b>- SUBJECT TO UDAIPUR JURISDICTION -</b></td></tr>
-                <tr><td style="font-size:10pt;"><b>"WE MAKE THE WEB A BETTER PLACE"</b></td></tr>
+                <tr><td style="font-size:9pt;"><b>"WE MAKE THE WEB A BETTER PLACE"</b></td></tr>
             </table>
             <br/>
             <table style="width:100%; ">

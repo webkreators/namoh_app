@@ -41,14 +41,20 @@
                             <legend class="font-weight-semibold text-uppercase font-size-sm">
                                 Terms &amp; Conditions
                             </legend>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label"><strong>Term Name:</strong></label>
-                                <div class="col-lg-9">
-                                    <input type="text" class="form-control form-control-lg" name="storeName"
-                                        value="{{ config('settings.storeName') }}" placeholder="Enter T&C">
-                                    <button style="margin-top: 10px;" type="button" class="btn btn-secondary btn-sm" id="toggleSendTestEmail" autocomplete="false"> Add Term</button>
+                            <form action="{{ route('settings.update') }}" method="POST">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label"><strong>Term Name:</strong></label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control form-control-lg" name="storeName" value="{{ config('settings.storeName') }}" placeholder="Enter T&C">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">&nbsp;</label>
+                                    <div class="col-lg-9">
+                                        <button type="submit" class="btn btn-primary btn-md btn-labeled btn-labeled-left mr-2" id="toggleSendTestEmail" autocomplete="false"><b><i class="icon-plus2"></i></b> Add Term </button>
+                                    </div>
+                                </div>
+                            </form>
                             <hr style="border-top: 3px dashed rgba(103, 58, 183, 0.20) !important;">
                             <div class="form-group row">
                                 <label class="col-lg-12 col-form-label"><strong>List Terms &amp; Conditions</strong></label>

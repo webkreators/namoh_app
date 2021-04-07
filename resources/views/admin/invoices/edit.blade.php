@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-lg-5">
                             <label class="col-form-label">Amount:</label>
-                            <input value="{{ $invoice_item->goods_amount }}" id='item_price_{{ $key }}' type="text" readonly class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
+                            <input value="{{ $invoice_item->goods_amount }}" id='item_price_{{ $key }}' type="text" class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
                         </div>
                         <div class="col-lg-1">
                             <label class="col-form-label" style="width: 100%;">&nbsp;</label>
@@ -166,7 +166,7 @@
         </div>
         <div class="col-lg-5">
             <label class="col-form-label">Amount:</label>
-            <input id='item_price_{0}' type="text" readonly class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
+            <input id='item_price_{0}' type="text" class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
         </div>
         <div class="col-lg-1">
             <label class="col-form-label" style="width: 100%;">&nbsp;</label>
@@ -196,10 +196,7 @@
             $("#client_address").val(address);
             $("#connection_date").val(connection_date);
         });
-        $('.add-new-item').click(function(e) {
-            var _template = $(template(counter++));
-            _template.find('.remove-invoice-row').removeClass('hidden');
-            $(_template).appendTo(".invoice-items");
+        function initValidationsOnItems() {
             $('.invoice-item-name').each(function () {
                 $(this).rules("add", {
                     required: true,
@@ -208,6 +205,20 @@
                     }
                 });
             });
+            $('.invoice-item-price').each(function () {
+                $(this).rules("add", {
+                    required: true,
+                    messages: {
+                        required: "Please enter valid amount"
+                    }
+                });
+            });
+        }
+        $('.add-new-item').click(function(e) {
+            var _template = $(template(counter++));
+            _template.find('.remove-invoice-row').removeClass('hidden');
+            $(_template).appendTo(".invoice-items");
+            initValidationsOnItems();
             itemCounter++;
             $('#no_items').val(itemCounter);
             e.preventDefault();
@@ -297,7 +308,7 @@
                     required: true,
                     digits: true
                 },
-                discount_type: 'required',
+                discount_in: 'required',
                 tax_slab: 'required',
                 connection_date: 'required',
                 service_time: 'required',
@@ -310,7 +321,7 @@
                     required: "Please enter discount",
                     digits: "Please enter digits"
                 },
-                discount_type: 'Please select discount type',
+                discount_in: 'Please select discount type',
                 tax_slab: 'Please select tax slab',
                 connection_date: 'Please select connection date',
                 service_time: 'Please select service time',
@@ -320,7 +331,8 @@
                 resetCounting();
                 form.submit();
             }
-        }); 
+        });
+        initValidationsOnItems();
     });
 </script>
 @endsection

@@ -22,10 +22,11 @@
             <div class="breadcrumb">
                 <a href="{{ route('invoices.add') }}">
                     <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
-                        <b><i class="icon-plus2"></i></b>
-                        Add Invoice
+                        <b><i class="icon-plus2"></i></b>Add Invoice
                     </button>
                 </a>
+                <button id="excel_export" class="btn bg-indigo-300 mr-2"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
+                <button id="pdf_print" class="btn bg-indigo-300 mr-2"><i class="icon-printer mr-2"></i> Print Invoices</button>
             </div>
         </div>
     </div>
@@ -39,16 +40,16 @@
                     <input value="{{ !empty($filters['client_params']) ? $filters['client_params'] : '' }}" type="text" name="client_params" class="form-control" placeholder="Search by client name/mobile/id" />
                 </div>
             </div>
-            <!-- <div class="col-md-2">
+            <div class="col-md-2">
                 <div class="form-group">
-                    <input type="text" name="date_from" class="form-control datepicker" placeholder="Date From" />
+                    <input value="{{ !empty($filters['date_from']) ? $filters['date_from'] : '' }}" type="text" name="date_from" class="form-control datepicker" placeholder="Date From" />
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <input type="text" name="date_to" class="form-control datepicker" placeholder="Date To" />
+                    <input value="{{ !empty($filters['date_to']) ? $filters['date_to'] : '' }}" type="text" name="date_to" class="form-control datepicker" placeholder="Date To" />
                 </div>
-            </div> -->
+            </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <select name="paid_unpaid" class="form-control">

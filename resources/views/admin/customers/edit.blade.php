@@ -20,7 +20,7 @@
                         @method('PUT')
                         @csrf
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Title:</label>
+                            <label class="col-lg-4 col-form-label">Title:</label>
                             <div class="col-lg-8">
                                 <select class="form-control select-search error" name="name_title" id="type" value="{{ old('name_title') }}">
                                     <option value="">Select title</option>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Email:</label>
+                            <label class="col-lg-4 col-form-label">Email:</label>
                             <div class="col-lg-8">
                                 <input value="{{ $customer->customer_email_address }}" type="email" class="form-control" name="customer_email_address" placeholder="Customer email" />
                             </div>
@@ -43,19 +43,19 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Aadhar Card Number</label>
+                            <label class="col-lg-4 col-form-label">Aadhar Card Number</label>
                             <div class="col-lg-8">
                                 <input value="{{ $customer->aadhar_no }}" type="text" class="form-control" name="aadhar_no" placeholder="Aadhar card Number" >
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>GSTIN Number</label>
+                            <label class="col-lg-4 col-form-label">GSTIN Number</label>
                             <div class="col-lg-8">
                                 <input value="{{ $customer->gstin_no }}" type="text" class="form-control" name="gstin_no" placeholder="GSTIN number" >
                             </div>
                         </div>    
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Anniversery Date</label>
+                            <label class="col-lg-4 col-form-label">Anniversery Date</label>
                             <div class="col-lg-8">
                                 <input value="{{ $customer->anniversary_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->anniversary_date)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="anniversary_date" placeholder="Select anniversery date" />
                             </div>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Remarks</label>
+                            <label class="col-lg-4 col-form-label">Remarks</label>
                             <div class="col-lg-8">
                                 <textarea class="form-control form-control" placeholder="Enter Remarks" id="floatingTextarea" name="remarks">{{ $customer->remarks }}</textarea>
                             </div>
@@ -93,13 +93,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Pan Card Number</label>
+                            <label class="col-lg-4 col-form-label">Pan Card Number</label>
                             <div class="col-lg-8">
                                 <input value="{{ $customer->pan_no }}" type="text" class="form-control" name="pan_no" placeholder="pan card number" >
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Birth Date</label>
+                            <label class="col-lg-4 col-form-label">Birth Date</label>
                             <div class="col-lg-8">
                                 <input value="{{ $customer->dob != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->dob)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="dob" placeholder="Select date of birth" >
                             </div>

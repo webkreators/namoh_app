@@ -17,12 +17,39 @@ class InvoiceController extends Controller
 {
     public function list(Request $request) {
         $filters = $request->all();
-        $query = DB::table('invoice')->join('customer', 'invoice.client_id', '=', 'customer.client_id');
+        $query = DB::table('invoice')->join('customer', 'invoice.client_id', '=', 'customer.client_id')->orderBy('invoice_id', 'DESC');
         if ($request->filled('client_params')) $query = $query->where('customer.customer_name', 'like', '%'.$request->client_params.'%')->orWhere('customer.customer_contact_number', 'like', '%'.$request->client_params.'%')->orWhere('customer.customer_email', 'like', '%'.$request->client_params.'%');
         if ($request->filled('paid_unpaid')) $query = $query->where('invoice.paid_unpaid', $request->paid_unpaid == 'unpaid' ? 0 : 1);
-        $invoices_count = $query->count();
-        $invoices = $query->paginate(env('ITEMS_PER_PAGE'));
-        return view('admin.invoices.list', compact('invoices', 'invoices_count', 'filters'));
+        if ($request->filled('date_from') && $request->filled('date_to')) {
+            $query = $query->whereDate('invoice.invoice_date', ">=", Carbon::createFromFormat('d/m/Y', $request->date_from)->format('Y-m-d'));
+            $query = $query->whereDate('invoice.invoice_date', "<=", Carbon::createFromFormat('d/m/Y', $request->date_to)->format('Y-m-d'));
+        }
+        if ($request->excel_export == 1) {
+            $file = fopen(public_path("csv_files/invoices.csv"), "w");
+            fputcsv($file, array('Invoice#', 'Client#', 'Payment Status', 'Client Name', 'Grand Total', 'Valid From', 'Valid Till', 'Connection Date', 'Mobile', 'Address', 'Remarks'));
+            $invoices = $query->get();
+            foreach ($invoices as $invoice) {
+                fputcsv($file, array(
+                    $invoice->invoice_id,
+                    $invoice->customer_email,
+                    $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid',
+                    $invoice->customer_name,
+                    number_format($invoice->grand_total, 2),
+                    $invoice->start_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->start_date)->format('d/m/Y') : '-',
+                    $invoice->end_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->end_date)->format('d/m/Y') : '-',
+                    $invoice->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->connection_date)->format('d/m/Y') : '-',
+                    $invoice->customer_contact_number,
+                    $invoice->customer_address,
+                    $invoice->remarks
+                ));
+            }
+            fclose($file);
+            return response()->download(public_path("csv_files/invoices.csv"))->deleteFileAfterSend(true);
+        } else {
+            $invoices_count = $query->count();
+            $invoices = $query->paginate(env('ITEMS_PER_PAGE'));
+            return view('admin.invoices.list', compact('invoices', 'invoices_count', 'filters'));
+        }
     }
     
     public function create(Request $request) {
