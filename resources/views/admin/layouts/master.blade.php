@@ -14,14 +14,15 @@
   <link href="{{ asset('assets/backend/css/styles.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('assets/backend/css/colors.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('assets/backend/css/components.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ asset('assets/backend/css/custom-color.css') }}" rel="stylesheet" type="text/css">
   <!-- /global stylesheets -->
 </head>
 <body>
   @if ((!Request::is('/authenticate')))
     @include("admin.includes.header")
   @endif
-  <div class="page-content container pt-0">
-    <div class="content-wrapper">
+  <div class="page-content container-fluid pt-0">
+    <div class="content-wrapper common-color-code">
       @yield("content")
     </div>
   </div>

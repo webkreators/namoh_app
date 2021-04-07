@@ -25,8 +25,8 @@
                         <b><i class="icon-plus2"></i></b>Add Invoice
                     </button>
                 </a>
-                <button id="excel_export" class="btn bg-indigo-300 mr-2"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
-                <button id="pdf_print" class="btn bg-indigo-300 mr-2"><i class="icon-printer mr-2"></i> Print Invoices</button>
+                <button id="excel_export" class="btn bianca-200 mr-2"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
+                <button id="pdf_print" class="btn bianca-200 mr-2"><i class="icon-printer mr-2"></i> Print Invoices</button>
             </div>
         </div>
     </div>
@@ -93,7 +93,7 @@
                             <td><a href="{{ route('customer.edit', $invoice->client_id) }}">{{ $invoice->customer_email }}</a></td>
                             <td>{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</td>
                             <td>{{ $invoice->customer_name }}</td>
-                            <td><span style="font-family: Arial;">&#8377;</span>{{ number_format($invoice->grand_total, 2) }}</td>
+                            <td class="outrageous-orange-500"><span style="font-family: Arial;">&#8377;</span>{{ number_format($invoice->grand_total, 2) }}</td>
                             <td>{{ $invoice->start_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->start_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->end_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->end_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->connection_date)->format('d/m/Y') : '-' }}</td>

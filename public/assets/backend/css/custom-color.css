@@ -1,0 +1,33 @@
+.bianca-200 {
+  background-color: #F7efe5;
+  color: #222222;
+}
+.outrageous-orange-500 {
+  color: #fd5825;
+}
+.common-color-code .badge-primary, .common-color-code .btn-primary {
+  background-color: #fd5825;
+} 
+.common-color-code .btn-secondary {
+   background-color: rgba(34, 34, 34, 0.8);
+}
+.common-color-code .card .card-body .nav-pills .nav-link.active {
+   background-color: rgba(34, 34, 34, 0.8);
+}
+.common-color-code .pagination .page-item.active .page-link {
+   background-color: #fd5825;
+   border-color: #fd5825;
+}
+
+.common-color-code .btn-secondary.btn-labeled>b {
+   background-color: #222222;
+}
+.common-color-code a {
+  color: #fd5825;
+}
+.common-navbar-dark-color-code {
+  background: linear-gradient(to left,#fd5825,#222222);
+}
+.common-navbar-sticky-color-code .navbar-nav-link.active {
+  color: #fd5825;
+}

@@ -6,7 +6,7 @@
     </div>
 </div>
 @else
-<div class="navbar navbar-expand-md navbar-dark">
+<div class="navbar navbar-expand-md navbar-dark common-navbar-dark-color-code">
     <div class="navbar-brand wmin-0 mr-5">
         <a href="{{ route('dashboard') }}" class="d-inline-block">
             <h5 class="pay-service-logo">Namoh Network</h5>
@@ -36,7 +36,7 @@
         </ul>
     </div>
 </div>
-<div class="navbar navbar-expand-md navbar-light navbar-sticky">
+<div class="navbar navbar-expand-md navbar-light navbar-sticky common-navbar-sticky-color-code">
     <div class="container">
         <div class="text-center d-md-none w-100">
             <button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-navigation">
