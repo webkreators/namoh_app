@@ -134,6 +134,12 @@
             form.removeAttr('target');
             form.find("input[name='excel_export']").val(0);
         });
+        $('#pdf_print').click(function() {
+            form.attr('action', '{{ route("invoices.bulk.generate") }}');
+            form.attr('target', '_blank').submit();
+            form.removeAttr('target');
+            form.attr('action', '');
+        });
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy',
             changeYear: true,
