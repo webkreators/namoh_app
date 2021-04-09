@@ -466,3 +466,9 @@ span.auth-error {
     margin-bottom: 0;
     margin-top: 20px;
 }
+.unpaid-invoice-span {
+    cursor: pointer;
+}
+.modal-backdrop {
+    background-color: #3e4442 !important;
+}

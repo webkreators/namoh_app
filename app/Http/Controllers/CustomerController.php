@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 class CustomerController extends Controller
 {
     public function list(Request $request) {
-        $query = DB::table('customer');
+        $query = DB::table('customer')->orderBy('customer_name', 'asc');
         if ($request->filled('squery')) $query = $query->where('customer.customer_name', 'like', '%'.$request->squery.'%')->orWhere('customer.customer_contact_number', 'like', '%'.$request->squery.'%')->orWhere('customer.customer_email', 'like', '%'.$request->squery.'%');
         $customer_count = $query->count();
         $type = $request->type;

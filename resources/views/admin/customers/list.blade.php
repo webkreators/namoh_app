@@ -54,9 +54,9 @@
                     <thead>
                         <tr>
                             <th>Client ID</th>
-                            <th style="min-width: 180px;">Client Name</th>
+                            <th>Client Name</th>
                             <th>Email</th>
-                            <th style="min-width: 300px;">Address</th>
+                            <th>Address</th>
                             <th>Contact</th>
                             <th>Whatsapp Number</th>
                             <th>Aadhar</th>

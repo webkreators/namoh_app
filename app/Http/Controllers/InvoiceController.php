@@ -17,7 +17,7 @@ class InvoiceController extends Controller
 {
     public function list(Request $request) {
         $filters = $request->all();
-        $query = DB::table('invoice')->join('customer', 'invoice.client_id', '=', 'customer.client_id')->orderBy('invoice_id', 'DESC');
+        $query = DB::table('invoice')->select('invoice.*', 'customer.customer_email', 'customer.customer_name', 'customer.customer_contact_number', 'customer.customer_address')->join('customer', 'invoice.client_id', '=', 'customer.client_id')->orderBy('invoice_id', 'DESC');
         if ($request->filled('client_params')) $query = $query->where('customer.customer_name', 'like', '%'.$request->client_params.'%')->orWhere('customer.customer_contact_number', 'like', '%'.$request->client_params.'%')->orWhere('customer.customer_email', 'like', '%'.$request->client_params.'%');
         if ($request->filled('paid_unpaid')) $query = $query->where('invoice.paid_unpaid', $request->paid_unpaid == 'unpaid' ? 0 : 1);
         if ($request->filled('date_from') && $request->filled('date_to')) {
@@ -46,9 +46,16 @@ class InvoiceController extends Controller
             fclose($file);
             return response()->download(public_path("csv_files/invoices.csv"))->deleteFileAfterSend(true);
         } else {
+            $pay_1 = clone $query;
+            $pay_2 = clone $query;
             $invoices_count = $query->count();
             $invoices = $query->paginate(env('ITEMS_PER_PAGE'));
-            return view('admin.invoices.list', compact('invoices', 'invoices_count', 'filters'));
+            $paid_amount = $pay_1->where('paid_unpaid', 1)->sum('grand_total');
+            $math = 100 + 18;
+            $unpaid_amount = $pay_2->where('paid_unpaid', 0)->sum('grand_total');
+            $gross_amount = ($paid_amount + $unpaid_amount) * 100 / $math;
+            $gst_amt = $gross_amount * 18 / 100;
+            return view('admin.invoices.list', compact('invoices', 'invoices_count', 'filters', 'paid_amount', 'unpaid_amount', 'gross_amount', 'gst_amt'));
         }
     }
     
@@ -57,16 +64,16 @@ class InvoiceController extends Controller
         $services = Service::all();
         $tax_slabs = TaxSlab::all();
         $now = \Carbon\Carbon::now();
-        $start = 1;
-        $invoice = Invoice::where(array('status' => 0, 'invoice_type' => 1))->latest()->first();
+        $start = 982;
+        $invoice = Invoice::where(array('status' => 0, 'invoice_type' => 1))->orderBy('invoice_id', 'desc')->limit(1)->first();
         if ($now->month > 3) {
             $year = $now->format('y')."-".($now->format('y') + 1);
         } else {
             $year = ($now->format('y') - 1)."-".$now->format('y');
         }
         if ($invoice != null) $start = $invoice->invoice_no + 1;
-        $invoice_number = "NNUDR/{$year}/{$start}";
-        $financial_year = "NNUDR/{$year}";
+        $invoice_number = "NNUPL/{$year}/{$start}";
+        $financial_year = "NNUPL/{$year}/";
         $invoice_no = $start;
         return view('admin.invoices.add', compact('customers', 'services', 'tax_slabs', 'invoice_number', 'financial_year', 'invoice_no'));
     }
@@ -289,5 +296,19 @@ class InvoiceController extends Controller
         Invoice::find($id)->delete();
         Session::flash('alert', 'Invoice has been deleted successfully!');
         return redirect(route('invoices'));
+    }
+
+    public function getInvoicePaymentMeta(Request $request, $id) {
+        $invoice = Invoice::find($id);
+        $html = view('admin.modals.invoice-status')->with(compact('invoice'))->render();
+        return response()->json(array('html' => $html));
+    }
+
+    public function updateInvoicePaymentMeta(Request $request, $id) {
+        $invoice = Invoice::find($id);
+        $invoice->paid_unpaid = $request->paid_unpaid;
+        $invoice->payment_comment = $request->payment_comment;
+        $invoice->update();
+        return response()->json(array('status' => 'success'));
     }
 }

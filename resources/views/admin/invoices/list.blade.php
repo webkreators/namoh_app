@@ -74,13 +74,15 @@
                             <th>Invoice #</th>
                             <th>Client #</th>
                             <th>Payment</th>
-                            <th style="min-width: 250px;">Client Name</th>
+                            <th>Payment Comment</th>
+                            <th>Client Name</th>
                             <th>Grand Total</th>
+                            <th>Invoice Date</th>
                             <th>Valid From</th>
                             <th>Valid Till</th>
                             <th>Connection Date</th>
                             <th>Mobile</th>
-                            <th style="min-width: 300px;">Address</th>
+                            <th>Address</th>
                             <th>Bill Details</th>
                             <th>Remarks</th>
                             <th>Action</th>
@@ -89,17 +91,19 @@
                     <tbody>
                         @foreach ($invoices as $key => $invoice)
                         <tr>
-                            <td><a href="{{ route('invoices.edit', $invoice->invoice_id) }}">{{ $invoice->invoice_id }}</a></td>
+                            <td><a href="{{ route('invoices.edit', $invoice->invoice_id) }}">{{ $invoice->financial_year }}{{ $invoice->invoice_no }}</a></td>
                             <td><a href="{{ route('customer.edit', $invoice->client_id) }}">{{ $invoice->customer_email }}</a></td>
-                            <td>{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</td>
+                            <td><span data-url="{{ route('invoices.payment.status', $invoice->invoice_id) }}" class="{{ $invoice->paid_unpaid == 0 ? 'badge badge-danger unpaid-invoice-span' : 'badge' }}">{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</span></td>
+                            <td>{{ $invoice->payment_comment }}</td>
                             <td>{{ $invoice->customer_name }}</td>
                             <td class="outrageous-orange-500"><span style="font-family: Arial;">&#8377;</span>{{ number_format($invoice->grand_total, 2) }}</td>
+                            <td>{{ $invoice->invoice_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->invoice_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->start_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->start_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->end_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->end_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->connection_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->customer_contact_number }}</td>
-                            <td>{{ $invoice->customer_address }}</td>
-                            <td></td>
+                            <td><span style="cursor: pointer;" class='client-address' data-address='{{ $invoice->customer_address }}'>view</span></td>
+                            <td>&nbsp;</td>
                             <td>{{ $invoice->remarks }}</td>
                             <td><a href="{{ route('invoices.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a></td>
                         </tr>
@@ -115,9 +119,40 @@
             <div class="mt-3">
                 {{ $invoices->appends(request()->except('page'))->links() }}
             </div>
+            <div class="row mt-4">
+                <div class="col-lg-12">
+                    <div class="card border-left-3 border-left-success rounded-left-0">
+                        <div class="card-body">
+                            <div class="row text-center justify-content-center">
+                                <div class="col-2">
+                                    <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($paid_amount, 2) }}</h5>
+                                    <span class="text-muted font-size-sm">Paid Amount</span>
+                                </div>
+                                <div class="col-2">
+                                    <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($unpaid_amount, 2) }}</h5>
+                                    <span class="text-muted font-size-sm">UnPaid Amount</span>
+                                </div>
+                                <div class="col-2">
+                                    <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($gross_amount, 2) }}</h5>
+                                    <span class="text-muted font-size-sm">Gross Amount</span>
+                                </div>
+                                <div class="col-2">
+                                    <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($gst_amt, 2) }}</h5>
+                                    <span class="text-muted font-size-sm">GST Amount</span>
+                                </div>
+                                <div class="col-2">
+                                    <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($paid_amount + $unpaid_amount, 2) }}</h5>
+                                    <span class="text-muted font-size-sm">Grand Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<div id="invoicePaymentStatusModal" class="modal fade" tabindex="-1"></div>
 @endsection
 @section('scripts')
 <script type="text/javascript">
@@ -145,6 +180,9 @@
             changeYear: true,
             yearRange: "2000:c"
         });
+        $('.client-address').click(function() {
+            swal($(this).data('address'));
+        });
         $('.delete-resource').click(function(e) {
             e.preventDefault();
             var link = $(this).attr('href');
@@ -157,6 +195,35 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     location.href = link;
+                }
+            });
+        });
+        $('.unpaid-invoice-span').click(function() {
+            var span = $(this);
+            $.ajax({
+                url: span.data('url'),
+                dataType: 'json',
+                success: function(data) {
+                    $('#invoicePaymentStatusModal').html(data.html).modal('show');
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+        $(document).on('submit', '#invoice_payment_form', function(e) {
+            e.preventDefault();
+            var action = $('#invoice_payment_form').attr('action');
+            $.ajax({
+                data: $('#invoice_payment_form').serialize(),
+                type: "PUT",
+                url: action,
+                success: function(data) {
+                    $('#invoicePaymentStatusModal').modal('hide');
+                    location.reload();
+                },
+                error: function (data) {
+                    console.log('Error:', data);
                 }
             });
         });

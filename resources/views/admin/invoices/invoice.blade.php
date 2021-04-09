@@ -122,7 +122,7 @@
         <table class="heading" style="width:100%;">
             <tr>
                 <td style="width:58%;">
-                    <h2 class="heading" ><span style="font-size:15px;">INVOICE No.</span> #{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}</h2><br/>
+                    <h2 class="heading" ><span style="font-size:15px;">INVOICE No.</span> #{{ $invoice->financial_year }}{{ $invoice->invoice_no }}</h2><br/>
                     <h1 class="heading" style="font-size:14px;"><b>{{ $user->company_name }}</b></h1>
                     <h1 class="heading" style="font-size:12px;"><i>Formerly known as: SHRI SAI NATH BROADBAND PVT. LTD. </i></h1>
                     <span style="font-size: 9pt;" class="client">{{ $user->address }}</span><br />
@@ -150,12 +150,11 @@
                         @endif
                     </span>
                 </td>
-                <td valign="top" style="text-align: center;"> 
-                    <h2 class="" ><span  style="font-size:10pt;">Invoice Date: {{ $invoice->invoice_date }}</span></h2>
-                    <br/> 
-                    <h2 class=""><span style="font-size:10pt; text-align:right" >Start Date : {{ $invoice->start_date }}</span></h2>
-                    <h2 class="alignright"><span style="font-size:10pt;">End Date : {{ $invoice->end_date }}</span></h2>
-                    <img src="{{ public_path('assets/backend/img/72142.jpg') }}" height="150px" width="50%">
+                <td valign="top" style="text-align: center;">
+                    <h2 style="text-align: right;"><span style="font-size:10pt; display: block; text-align: right">Invoice Date: {{ $invoice->invoice_date }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:10pt; display: block; text-align:right" >Start Date : {{ $invoice->start_date }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:10pt; display: block; text-align: right">End Date : {{ $invoice->end_date }}</span></h2>
+                    <img src="{{ public_path('assets/backend/img/logo.png') }}" height="auto" width="30%">
                 </td>
             </tr>
         </table>

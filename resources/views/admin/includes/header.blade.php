@@ -9,7 +9,7 @@
 <div class="navbar navbar-expand-md navbar-dark common-navbar-dark-color-code">
     <div class="navbar-brand wmin-0 mr-5">
         <a href="{{ route('dashboard') }}" class="d-inline-block">
-            <h5 class="pay-service-logo">Namoh Network</h5>
+            <h5 class="pay-service-logo">{{ env('APP_NAME') }}</h5>
         </a>
     </div>
     <div class="d-md-none">
@@ -24,6 +24,35 @@
         </div>
     </div>
     <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">
+                    <i class="icon-bubble-notification"></i>
+                    <span class="d-md-none ml-2">Activity</span>
+                    <span class="badge badge-mark border-orange-400 ml-auto ml-md-0"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content wmin-md-350">
+                    <div class="dropdown-content-header">
+                        <span class="font-weight-semibold">Notifications</span>
+                    </div>
+                    <div class="dropdown-content-body dropdown-scrollable">
+                        <ul class="media-list">
+                            @foreach (\App\Models\Customer::checkNotifications() as $notification)
+                            <li class="media">
+                                <div class="mr-3">
+                                    <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-megaphone"></i></a>
+                                </div>
+                                <div class="media-body">
+                                    {{ $notification['message'] }}
+                                    <div class="font-size-sm text-muted mt-1">{{ $notification['when'] }}</div>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">

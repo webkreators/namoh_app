@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
+use App\Models\Invoice;
 
 class Customer extends Authenticatable
 {
@@ -39,4 +41,23 @@ class Customer extends Authenticatable
         'created_at',
         'updated_at'
     ];
+
+    public static function checkNotifications() {
+        $date = Carbon::now()->format('Y-m-d');
+        $notifications = array();
+        $birthday_today_customers = self::where('dob', $date)->get();
+        foreach ($birthday_today_customers as $customer) {
+            $notifications[] = array('type' => 'birthday', 'message' => "{$customer->customer_name} is having birthday", 'when' => 'Today');
+        }
+        $anniversary_today_customers = self::where('anniversary_date', $date)->get();
+        foreach ($anniversary_today_customers as $customer) {
+            $notifications[] = array('type' => 'anniversary', 'message' => "{$customer->customer_name} is having anniversary", 'when' => 'Today');
+        }
+        $date = Carbon::now()->addDays(1)->format('Y-m-d');
+        $connection_expiring_customers = Invoice::where('end_date', $date)->join('customer', 'customer.client_id', '=', 'invoice.client_id')->get();
+        foreach ($connection_expiring_customers as $customer) {
+            $notifications[] = array('type' => 'anniversary', 'message' => "{$customer->customer_name}'s connection is expiring", 'when' => 'Tomorrow');
+        }
+        return $notifications;
+    }
 }
