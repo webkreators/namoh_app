@@ -97,10 +97,11 @@
                         @endif
                     </tbody>
                 </table>
+                <div class="mt-3">
+                  {{ $customers->appends(request()->except('page'))->links() }}
+              </div>
             </div>
-            <div class="mt-3">
-                {{ $customers->appends(request()->except('page'))->links() }}
-            </div>
+            
         </div>
     </div>
 </div>

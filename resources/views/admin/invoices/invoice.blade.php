@@ -150,11 +150,11 @@
                         @endif
                     </span>
                 </td>
-                <td valign="top" style="text-align: center;">
-                    <h2 style="text-align: right;"><span style="font-size:10pt; display: block; text-align: right">Invoice Date: {{ $invoice->invoice_date }}</span></h2>
-                    <h2 style="text-align: right;"><span style="font-size:10pt; display: block; text-align:right" >Start Date : {{ $invoice->start_date }}</span></h2>
-                    <h2 style="text-align: right;"><span style="font-size:10pt; display: block; text-align: right">End Date : {{ $invoice->end_date }}</span></h2>
-                    <img src="{{ public_path('assets/backend/img/logo.png') }}" height="auto" width="30%">
+                <td valign="top" style="text-align: right;">
+                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align: right">Invoice Date: {{ $invoice->invoice_date }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align:right" >Start Date : {{ $invoice->start_date }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align: right">End Date : {{ $invoice->end_date }}</span></h2>
+                    <img style="margin-right: 34px;" src="{{ public_path('assets/backend/img/logo.png') }}" height="auto" width="30%">
                 </td>
             </tr>
         </table>

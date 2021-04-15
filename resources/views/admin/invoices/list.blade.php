@@ -59,7 +59,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 search-icons-box">
                 <button type="submit" class="btn btn-primary btn-icon"><i class="icon-search4"></i></button>
                 <button type="button" id='clear_form' class="btn alpha-pink text-pink-800 btn-icon ml-2"><i class="icon-cross3"></i></button>
             </div>
@@ -91,9 +91,12 @@
                     <tbody>
                         @foreach ($invoices as $key => $invoice)
                         <tr>
-                            <td><a href="{{ route('invoices.edit', $invoice->invoice_id) }}">{{ $invoice->financial_year }}{{ $invoice->invoice_no }}</a></td>
+                            <td class="invoice_title">
+                            <a class="text" href="{{ route('invoices.edit', $invoice->invoice_id) }}">{{ $invoice->financial_year }}{{ $invoice->invoice_no }}</a>
+                            <a class="pdf-img" target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a>
+                            </td>
                             <td><a href="{{ route('customer.edit', $invoice->client_id) }}">{{ $invoice->customer_email }}</a></td>
-                            <td><span data-url="{{ route('invoices.payment.status', $invoice->invoice_id) }}" class="{{ $invoice->paid_unpaid == 0 ? 'badge badge-danger unpaid-invoice-span' : 'badge' }}">{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</span></td>
+                            <td class="paid_unpaid_show"><span data-url="{{ route('invoices.payment.status', $invoice->invoice_id) }}" class="{{ $invoice->paid_unpaid == 0 ? 'badge badge-danger unpaid-invoice-span' : 'badge paid_text' }}">{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</span></td>
                             <td>{{ $invoice->payment_comment }}</td>
                             <td>{{ $invoice->customer_name }}</td>
                             <td class="outrageous-orange-500"><span style="font-family: Arial;">&#8377;</span>{{ number_format($invoice->grand_total, 2) }}</td>
@@ -102,10 +105,13 @@
                             <td>{{ $invoice->end_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->end_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->connection_date)->format('d/m/Y') : '-' }}</td>
                             <td>{{ $invoice->customer_contact_number }}</td>
-                            <td><span style="cursor: pointer;" class='client-address' data-address='{{ $invoice->customer_address }}'>view</span></td>
+                            <td class="view_tab"><span style="cursor: pointer;" class='client-address' data-address='{{ $invoice->customer_address }}'>view</span></td>
                             <td>&nbsp;</td>
                             <td>{{ $invoice->remarks }}</td>
-                            <td><a href="{{ route('invoices.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a></td>
+                            <td class="text-center">
+                            <a href="{{ route('invoices.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>
+                            <!-- <a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a> -->
+                            </td>
                         </tr>
                         @endforeach
                         @if (count($invoices) == 0)
@@ -115,9 +121,9 @@
                         @endif
                     </tbody>
                 </table>
-            </div>
-            <div class="mt-3">
-                {{ $invoices->appends(request()->except('page'))->links() }}
+                <div class="mt-4">
+                  {{ $invoices->appends(request()->except('page'))->links() }}
+              </div>
             </div>
             <div class="row mt-4">
                 <div class="col-lg-12">

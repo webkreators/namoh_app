@@ -31,3 +31,51 @@
 .common-navbar-sticky-color-code .navbar-nav-link.active {
   color: #fd5825;
 }
+.invoice_title {
+  display: grid;
+}
+.invoice_title .text {
+  color: unset;
+  margin-bottom: 17px;
+}
+.invoice_title .text:hover {
+  color: #fd5825;
+}
+.invoice_title .pdf-img {
+  color: unset;
+}
+.invoice_title .pdf-img .icon-file-pdf {
+  color: #ad2622;
+  font-size: 24px;
+}
+.view_tab span:hover {
+  color: #fd5825;
+}
+.paid_unpaid_show .paid_text:hover {
+  color: #fd5825;
+  cursor: pointer;
+}
+.paid_unpaid_show .paid_text {
+  font-size: 12px;
+}
+@media only screen and (max-width: 767px) {
+  .search-icons-box {
+    margin-bottom: 16px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .search-icons-box .btn-primary {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: 543px) {
+  .custom-navbar-brnd {
+    padding-bottom: 0;
+  }
+}
+@media only screen and (max-width: 543px) {
+  .custom-right-bar .navbar-toggler {
+    padding-top: 0;
+  }
+}
+

@@ -7,12 +7,12 @@
 </div>
 @else
 <div class="navbar navbar-expand-md navbar-dark common-navbar-dark-color-code">
-    <div class="navbar-brand wmin-0 mr-5">
+    <div class="navbar-brand wmin-0 mr-5 custom-navbar-brnd">
         <a href="{{ route('dashboard') }}" class="d-inline-block">
             <h5 class="pay-service-logo">{{ env('APP_NAME') }}</h5>
         </a>
     </div>
-    <div class="d-md-none">
+    <div class="d-md-none custom-right-bar">
         <button class="navbar-toggler dropdown-toggle" type="button" data-toggle="collapse" data-target="#navbar-mobile">
             <span>{{ Auth::user()->company_name }}</span>
         </button>
@@ -40,7 +40,7 @@
                             @foreach (\App\Models\Customer::checkNotifications() as $notification)
                             <li class="media">
                                 <div class="mr-3">
-                                    <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-megaphone"></i></a>
+                                    <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="{{ $notification['icon'] }}"></i></a>
                                 </div>
                                 <div class="media-body">
                                     {{ $notification['message'] }}

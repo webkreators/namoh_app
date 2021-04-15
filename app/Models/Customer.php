@@ -47,16 +47,16 @@ class Customer extends Authenticatable
         $notifications = array();
         $birthday_today_customers = self::where('dob', $date)->get();
         foreach ($birthday_today_customers as $customer) {
-            $notifications[] = array('type' => 'birthday', 'message' => "{$customer->customer_name} is having birthday", 'when' => 'Today');
+            $notifications[] = array('type' => 'birthday', 'message' => "{$customer->customer_name} is having birthday", 'when' => 'Today', 'icon' => 'icon-gift');
         }
         $anniversary_today_customers = self::where('anniversary_date', $date)->get();
         foreach ($anniversary_today_customers as $customer) {
-            $notifications[] = array('type' => 'anniversary', 'message' => "{$customer->customer_name} is having anniversary", 'when' => 'Today');
+            $notifications[] = array('type' => 'anniversary', 'message' => "{$customer->customer_name} is having anniversary", 'when' => 'Today', 'icon' => 'icon-people');
         }
         $date = Carbon::now()->addDays(1)->format('Y-m-d');
         $connection_expiring_customers = Invoice::where('end_date', $date)->join('customer', 'customer.client_id', '=', 'invoice.client_id')->get();
         foreach ($connection_expiring_customers as $customer) {
-            $notifications[] = array('type' => 'anniversary', 'message' => "{$customer->customer_name}'s connection is expiring", 'when' => 'Tomorrow');
+            $notifications[] = array('type' => 'connection', 'message' => "{$customer->customer_name}'s connection is expiring", 'when' => 'Tomorrow', 'icon' => 'icon-megaphone');
         }
         return $notifications;
     }
