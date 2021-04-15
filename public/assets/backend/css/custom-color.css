@@ -78,4 +78,29 @@
     padding-top: 0;
   }
 }
-
+@media only screen and (min-width: 768px) {
+  .custom-menu-drop {
+    display: none !important;
+  }
+}
+.custom-menu-drop {
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: 0;
+}
+.custom-menu-drop .add-invoice {
+  display: flex;
+}
+.custom-menu-drop .add-invoice:hover {
+  background-color: #f5f5f5;
+}
+.custom-menu-drop .add-invoice .icon-plus2 {
+  line-height: 1;
+  top: 1px;
+}
+.custom-menu-drop .btn {
+  border-radius: 0;
+}
+.dropdownMenuButton-1::after {
+  display: none;
+}
