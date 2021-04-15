@@ -151,9 +151,9 @@
                     </span>
                 </td>
                 <td valign="top" style="text-align: right;">
-                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align: right">Invoice Date: {{ $invoice->invoice_date }}</span></h2>
-                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align:right" >Start Date : {{ $invoice->start_date }}</span></h2>
-                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align: right">End Date : {{ $invoice->end_date }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align: right">Invoice Date: {{ \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->invoice_date)->format('d-m-Y') }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align:right" >Start Date : {{ \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->start_date)->format('d-m-Y') }}</span></h2>
+                    <h2 style="text-align: right;"><span style="font-size:9pt; display: block; text-align: right">End Date : {{ \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->end_date)->format('d-m-Y') }}</span></h2>
                     <img style="margin-right: 34px;" src="{{ public_path('assets/backend/img/logo.png') }}" height="auto" width="30%">
                 </td>
             </tr>

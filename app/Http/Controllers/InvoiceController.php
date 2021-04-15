@@ -289,7 +289,7 @@ class InvoiceController extends Controller
         $mpdf->list_indent_first_level = 0;
         $html = view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'))->render();
         $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        $mpdf->Output(str_replace(" ", "_", $invoice->customer->customer_name) . "_" . $invoice->invoice_no . '.pdf', 'I');
     }
     
     public function delete(Request $request, $id) {
