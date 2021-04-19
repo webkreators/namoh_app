@@ -139,23 +139,23 @@
                     <div class="card border-left-3 border-left-success rounded-left-0">
                         <div class="card-body">
                             <div class="row text-center justify-content-center">
-                                <div class="col-2">
+                                <div class="col-lg-2 col-md-4 col-6 mb-2">
                                     <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($paid_amount, 2) }}</h5>
                                     <span class="text-muted font-size-sm">Paid Amount</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-lg-2 col-md-4 col-6 mb-2">
                                     <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($unpaid_amount, 2) }}</h5>
                                     <span class="text-muted font-size-sm">UnPaid Amount</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-lg-2 col-md-4 col-6 mb-2">
                                     <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($gross_amount, 2) }}</h5>
                                     <span class="text-muted font-size-sm">Gross Amount</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-lg-2 col-md-6 col-6">
                                     <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($gst_amt, 2) }}</h5>
                                     <span class="text-muted font-size-sm">GST Amount</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-lg-2 col-md-6 col-6">
                                     <h5 class="font-weight-semibold mb-0"><span style="font-family: Arial;">&#8377;</span>{{ number_format($paid_amount + $unpaid_amount, 2) }}</h5>
                                     <span class="text-muted font-size-sm">Grand Total</span>
                                 </div>
