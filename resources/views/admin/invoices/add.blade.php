@@ -43,7 +43,7 @@
                         <label for="client_number" class="form-label">Contact Number</label>
                         <input type="text" class="form-control" id="client_number" placeholder="Client Contact" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <label for="client_address" class="form-label">Client Address</label>
                         <input type="text" class="form-control" id="client_address" name="client_address">
                     </div>
