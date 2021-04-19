@@ -16,7 +16,16 @@
                 <span class="font-weight-bold mr-2">Total Invoices</span>
                 <span class="badge badge-primary badge-pill animated flipInX">{{ $invoices_count }}</span>
             </h4>
-            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            <a href="#" class="header-elements-toggle text-default d-md-none dropdown-toggle dropdownMenuButton-1" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-more"></i></a>
+            <div class="dropdown-menu custom-menu-drop" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item p-0" href="{{ route('invoices.add') }}">
+                <button type="button" class="btn bianca-200  btn-labeled add-invoice" style="width: 100%;">
+                    <i class="icon-plus2 mr-2"></i>Add Invoice
+                </button>
+            </a>
+            <button id="excel_export" class="btn bianca-200 mr-2 dropdown-item"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
+            <button id="pdf_print" class="btn bianca-200 mr-2 dropdown-item"><i class="icon-printer mr-2"></i> Print Invoices</button>
+            </div>
         </div>
         <div class="header-elements d-none py-0 mb-3 mb-md-0">
             <div class="breadcrumb">
