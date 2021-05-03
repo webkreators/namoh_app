@@ -41,11 +41,11 @@
                     </div>
                     <div class="col-lg-4">
                         <label for="client_number" class="form-label">Contact Number</label>
-                        <input type="text" class="form-control" id="client_number" placeholder="Client Contact" />
+                        <input autocomplete='off' type="text" class="form-control" id="client_number" placeholder="Client Contact" />
                     </div>
                     <div class="col-md-4">
                         <label for="client_address" class="form-label">Client Address</label>
-                        <input type="text" class="form-control" id="client_address" name="client_address">
+                        <input autocomplete='off' type="text" class="form-control" id="client_address" name="client_address">
                     </div>
                 </div>
                 <legend class="font-weight-semibold font-size-md text-uppercase mt-1 mb-1" style="border-bottom: none;">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-lg-4">
                         <label for="Discount" class="form-label">Discount</label>
-                        <input type="text" class="form-control" id="discount" name="discount">
+                        <input autocomplete='off' value="0" type="text" class="form-control" id="discount" name="discount">
                     </div>
                     <div class="col-lg-4">
                         <label for="Discount" class="form-label">Discount Type</label>
@@ -89,11 +89,11 @@
                     </div>
                     <div class="col-md-4">
                         <label for="Connection Date" class="form-label">Connection Date</label>
-                        <input type="text" class="form-control" id="connection_date" name="connection_date" />
+                        <input autocomplete='off' type="text" class="form-control" id="connection_date" name="connection_date" />
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="Service Time" class="form-label">Service Time</label>
                         <select class="form-control" name="service_time" id="service_time">
                             <option selected value="">Select Service Time</option>
@@ -102,20 +102,20 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="From Date" class="form-label">From Date</label>
-                        <input type="text" class="form-control" id="start_date" name="start_date" />
+                        <input autocomplete='off' type="text" class="form-control" id="start_date" name="start_date" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="To Date" class="form-label">To Date</label>
-                        <input type="text" class="form-control" id="end_date" name="end_date" />
+                        <input autocomplete='off' type="text" class="form-control" id="end_date" name="end_date" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 d-none">
                         <label for="To Date" class="form-label">Invoice Pay Status</label>
                         <select class="form-control" name="paid_unpaid">
                             <option selected value="">Select Payment Status</option>
                             <option value="1">Paid</option>
-                            <option value="0">Unpaid</option>
+                            <option value="0" selected>Unpaid</option>
                         </select>
                     </div>
                 </div>

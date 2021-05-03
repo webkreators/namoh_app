@@ -37,9 +37,7 @@ class Customer extends Authenticatable
         'connection_date',
         'remarks',
         'status',
-        'static_ip',
-        'created_at',
-        'updated_at'
+        'static_ip'
     ];
 
     public static function checkNotifications() {

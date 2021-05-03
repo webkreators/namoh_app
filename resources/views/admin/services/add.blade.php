@@ -21,7 +21,7 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Product service Name:</label>
                             <div class="col-lg-8">
-                                <input type="text" class="form-control" name="product_name" placeholder="Enter product/service name" />
+                                <input autocomplete='off' type="text" class="form-control" name="product_name" placeholder="Enter product/service name" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -40,7 +40,7 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Product /Service Charge</label>
                             <div class="col-lg-8">
-                                <input type="text" class="form-control" name="product_charge" placeholder="Enter product/service charge" />
+                                <input autocomplete='off' type="text" class="form-control" name="product_charge" placeholder="Enter product/service charge" />
                             </div>
                         </div>
                         <div class="form-group row">

@@ -33,37 +33,37 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Email:</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->customer_email_address }}" type="email" class="form-control" name="customer_email_address" placeholder="Customer email" />
+                                <input autocomplete='off' value="{{ $customer->customer_email_address }}" type="email" class="form-control" name="customer_email_address" placeholder="Customer email" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Contact Number one</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->customer_contact_number }}" type="text" class="form-control" name="customer_contact_number" placeholder="Contact Number one" >
+                                <input autocomplete='off' value="{{ $customer->customer_contact_number }}" type="text" class="form-control" name="customer_contact_number" placeholder="Contact Number one" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Aadhar Card Number</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->aadhar_no }}" type="text" class="form-control" name="aadhar_no" placeholder="Aadhar card Number" >
+                                <input autocomplete='off' value="{{ $customer->aadhar_no }}" type="text" class="form-control" name="aadhar_no" placeholder="Aadhar card Number" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">GSTIN Number</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->gstin_no }}" type="text" class="form-control" name="gstin_no" placeholder="GSTIN number" >
+                                <input autocomplete='off' value="{{ $customer->gstin_no }}" type="text" class="form-control" name="gstin_no" placeholder="GSTIN number" >
                             </div>
                         </div>    
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Anniversery Date</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->anniversary_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->anniversary_date)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="anniversary_date" placeholder="Select anniversery date" />
+                                <input autocomplete='off' value="{{ $customer->anniversary_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->anniversary_date)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="anniversary_date" placeholder="Select anniversery date" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Client Id</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->customer_email }}" type="text" class="form-control" name="customer_email" placeholder="Client id" />
+                                <input autocomplete='off' value="{{ $customer->customer_email }}" type="text" class="form-control" name="customer_email" placeholder="Client id" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -77,37 +77,43 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Client/Firm Name</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->customer_name }}" type="text" class="form-control" name="customer_name" placeholder="Client/Firm Name" >
+                                <input autocomplete='off' value="{{ $customer->customer_name }}" type="text" class="form-control" name="customer_name" placeholder="Client/Firm Name" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label "><span class="text-danger">*</span>Address</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->customer_address }}" type="text" class="form-control" name="customer_address" placeholder="Customer address" >
+                                <input autocomplete='off' value="{{ $customer->customer_address }}" type="text" class="form-control" name="customer_address" placeholder="Customer address" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Whatsapp Number</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->contact_number_two }}" type="text" class="form-control" name="contact_number_two" placeholder="Alternate number" >
+                                <input autocomplete='off' value="{{ $customer->contact_number_two }}" type="text" class="form-control" name="contact_number_two" placeholder="Alternate number" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Pan Card Number</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->pan_no }}" type="text" class="form-control" name="pan_no" placeholder="pan card number" >
+                                <input autocomplete='off' value="{{ $customer->pan_no }}" type="text" class="form-control" name="pan_no" placeholder="pan card number" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Birth Date</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->dob != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->dob)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="dob" placeholder="Select date of birth" >
+                                <input autocomplete='off' value="{{ $customer->dob != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->dob)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="dob" placeholder="Select date of birth" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><span class="text-danger">*</span>Connection Date</label>
                             <div class="col-lg-8">
-                                <input value="{{ $customer->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="connection_date" placeholder="Select connection date" />
+                                <input autocomplete='off' value="{{ $customer->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') : '' }}" type="text" class="form-control date-picker" name="connection_date" placeholder="Select connection date" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Static IP</label>
+                            <div class="col-lg-8">
+                                <input autocomplete='off' type="text" value="{{ $customer->static_ip }}" class="form-control" name="static_ip" placeholder="Static IP" />
                             </div>
                         </div>
                         <div class="text-right">

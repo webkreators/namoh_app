@@ -21,11 +21,11 @@
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <label for="invoiceNumber" class="form-label">Invoice Number</label>
-                        <input value="{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}" type="text" readonly class="form-control" id="invoiceNumber" name="invoiceNumber" placeholder="Invoice Number">
+                        <input autocomplete='off' value="{{ $invoice->financial_year }}/{{ $invoice->invoice_no }}" type="text" readonly class="form-control" id="invoiceNumber" name="invoiceNumber" placeholder="Invoice Number">
                     </div>
                     <div class="col-lg-6">
                         <label for="invoice_date" class="form-label">Invoice Date</label>
-                        <input value="{{ \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->invoice_date)->format('d/m/Y') }}" type="text" class="form-control" id="invoice_date" name="invoice_date">
+                        <input autocomplete='off' value="{{ \Carbon\Carbon::CreateFromFormat('Y-m-d', $invoice->invoice_date)->format('d/m/Y') }}" type="text" class="form-control" id="invoice_date" name="invoice_date">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -40,11 +40,11 @@
                     </div>
                     <div class="col-lg-4">
                         <label for="client_number" class="form-label">Contact Number</label>
-                        <input type="text" class="form-control" id="client_number" placeholder="Client Contact" />
+                        <input autocomplete='off' type="text" class="form-control" id="client_number" placeholder="Client Contact" />
                     </div>
                     <div class="col-md-4">
                         <label for="client_address" class="form-label">Client Address</label>
-                        <input type="text" class="form-control" id="client_address" name="client_address">
+                        <input autocomplete='off' type="text" class="form-control" id="client_address" name="client_address">
                     </div>
                 </div>
                 <legend class="font-weight-semibold font-size-md text-uppercase mt-1 mb-1" style="border-bottom: none;">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-lg-5">
                             <label class="col-form-label">Amount:</label>
-                            <input value="{{ $invoice_item->goods_amount }}" id='item_price_{{ $key }}' type="text" class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
+                            <input autocomplete='off' value="{{ $invoice_item->goods_amount }}" id='item_price_{{ $key }}' type="text" class="form-control invoice-item-price" name="item_price_{0}" placeholder="Service amount">
                         </div>
                         <div class="col-lg-1">
                             <label class="col-form-label" style="width: 100%;">&nbsp;</label>
@@ -79,11 +79,11 @@
                 <div class="form-group row">
                     <div class="col-lg-4">
                         <label for="Gross Amount" class="form-label">Gross Amount</label>
-                        <input value="{{ $invoice->total_amount }}" readonly type="text" class="form-control" id="gross_amount" name="total_amount" />
+                        <input autocomplete='off' value="{{ $invoice->total_amount }}" readonly type="text" class="form-control" id="gross_amount" name="total_amount" />
                     </div>
                     <div class="col-lg-4">
                         <label for="Discount" class="form-label">Discount</label>
-                        <input value="{{ floor($invoice->discount) }}" type="text" class="form-control" id="discount" name="discount">
+                        <input autocomplete='off' value="{{ floor($invoice->discount) }}" type="text" class="form-control" id="discount" name="discount">
                     </div>
                     <div class="col-lg-4">
                         <label for="Discount" class="form-label">Discount Type</label>
@@ -106,15 +106,15 @@
                     </div>
                     <div class="col-md-4">
                         <label for="Grand Total" class="form-label">Grand Total</label>
-                        <input value="{{ $invoice->grand_total }}" readonly type="text" class="form-control" id="grand_total" name="grand_total" />
+                        <input autocomplete='off' value="{{ $invoice->grand_total }}" readonly type="text" class="form-control" id="grand_total" name="grand_total" />
                     </div>
                     <div class="col-md-4">
                         <label for="Connection Date" class="form-label">Connection Date</label>
-                        <input type="text" class="form-control" id="connection_date" name="connection_date" />
+                        <input autocomplete='off' type="text" class="form-control" id="connection_date" name="connection_date" />
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="Service Time" class="form-label">Service Time</label>
                         <select class="form-control" name="service_time" id="service_time">
                             <option selected value="">Select Service Time</option>
@@ -123,21 +123,13 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="From Date" class="form-label">From Date</label>
-                        <input type="text" class="form-control" id="start_date" name="start_date" />
+                        <input autocomplete='off' type="text" class="form-control" id="start_date" name="start_date" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="To Date" class="form-label">To Date</label>
-                        <input type="text" class="form-control" id="end_date" name="end_date" />
-                    </div>
-                    <div class="col-md-3">
-                        <label for="To Date" class="form-label">Invoice Pay Status</label>
-                        <select class="form-control" name="paid_unpaid">
-                            <option selected value="">Select Payment Status</option>
-                            <option {{ $invoice->paid_unpaid == 1 ? 'selected' : '' }} value="1">Paid</option>
-                            <option {{ $invoice->paid_unpaid == 0 ? 'selected' : '' }} value="0">Unpaid</option>
-                        </select>
+                        <input autocomplete='off' type="text" class="form-control" id="end_date" name="end_date" />
                     </div>
                 </div>
                 <div class="form-group row">

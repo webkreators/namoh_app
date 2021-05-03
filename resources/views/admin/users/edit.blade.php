@@ -22,14 +22,14 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Name:</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control form-control-lg" value="{{ $user->company_name }}" name="company_name" placeholder="Name">
+                                <input autocomplete='off' type="text" class="form-control form-control-lg" value="{{ $user->company_name }}" name="company_name" placeholder="Name">
                             </div>
                         </div>
                         
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Mobile No:</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control form-control-lg" value="{{ $user->company_mobile }}" name="company_mobile" placeholder="Enter user contact no">
+                                <input autocomplete='off' type="text" class="form-control form-control-lg" value="{{ $user->company_mobile }}" name="company_mobile" placeholder="Enter user contact no">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -45,26 +45,26 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Aadhar Card No:</label>
                             <div class="col-lg-9">
-                                <input value="{{ $user->aadhar_card_no }}" type="text" class="form-control form-control-lg" name="aadhar_card_no" placeholder="Enter user aadhar No">
+                                <input autocomplete='off' value="{{ $user->aadhar_card_no }}" type="text" class="form-control form-control-lg" name="aadhar_card_no" placeholder="Enter user aadhar No">
                             </div>
                         </div>
                         
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>Designation:</label>
                             <div class="col-lg-9">
-                                <input value="{{ $user->designation }}"  type="text" class="form-control form-control-lg" name="designation" placeholder="Enter Designation">
+                                <input autocomplete='off' value="{{ $user->designation }}"  type="text" class="form-control form-control-lg" name="designation" placeholder="Enter Designation">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label"><span class="text-danger">*</span>User Login:</label>
                             <div class="col-lg-9">
-                                <input value="{{ $user->user_name }}" type="text" class="form-control form-control-lg" name="user_name" placeholder="Enter User Login id">
+                                <input autocomplete='off' value="{{ $user->user_name }}" type="text" class="form-control form-control-lg" name="user_name" placeholder="Enter User Login id">
                             </div>
                         </div>
                         <div class="form-group row form-group-feedback form-group-feedback-right">
                             <label class="col-lg-3 col-form-label">Password:</label>
                             <div class="col-lg-9">
-                                <input id="passwordInput" type="password" class="form-control form-control-lg" name="password" placeholder="Keep it blank if you don't want to change password" autocomplete="new-password">
+                                <input autocomplete='off' id="passwordInput" type="password" class="form-control form-control-lg" name="password" placeholder="Keep it blank if you don't want to change password" autocomplete="new-password">
                             </div>
                         </div>
                         <div class="form-group row">

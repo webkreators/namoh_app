@@ -280,7 +280,6 @@ class InvoiceController extends Controller
         }
         $str = array_reverse($str);
         $in_words = implode('', $str);
-        $points = ($point) ? "." . $words[$point / 10] . " " . $words[$point = $point % 10] : '';
         $terms = DB::table('terms_condition')->get();
         $bank_details = Db::table('bank_details')->first();
         #return view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'));
