@@ -18,13 +18,13 @@
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none dropdown-toggle dropdownMenuButton-1" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-more"></i></a>
             <div class="dropdown-menu custom-menu-drop" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item p-0" href="{{ route('invoices.add') }}">
-                <button type="button" class="btn bianca-200  btn-labeled add-invoice" style="width: 100%;">
-                    <i class="icon-plus2 mr-2"></i>Add Invoice
-                </button>
-            </a>
-            <button id="excel_export" class="btn bianca-200 mr-2 dropdown-item"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
-            <button id="pdf_print" class="btn bianca-200 mr-2 dropdown-item"><i class="icon-printer mr-2"></i> Print Invoices</button>
+                <a class="dropdown-item p-0" href="{{ route('invoices.add') }}">
+                    <button type="button" class="btn bianca-200  btn-labeled add-invoice" style="width: 100%;">
+                        <i class="icon-plus2 mr-2"></i>Add Invoice
+                    </button>
+                </a>
+                <button class="btn bianca-200 mr-2 dropdown-item excel-export"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
+                <button class="btn bianca-200 mr-2 dropdown-item pdf-print"><i class="icon-printer mr-2"></i> Print Invoices</button>
             </div>
         </div>
         <div class="header-elements d-none py-0 mb-3 mb-md-0">
@@ -34,8 +34,8 @@
                         <b><i class="icon-plus2"></i></b>Add Invoice
                     </button>
                 </a>
-                <button id="excel_export" class="btn bianca-200 mr-2"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
-                <button id="pdf_print" class="btn bianca-200 mr-2"><i class="icon-printer mr-2"></i> Print Invoices</button>
+                <button class="btn bianca-200 mr-2 excel-export"><i class="icon-file-excel mr-2"></i> Export Invoices</button>
+                <button class="btn bianca-200 mr-2 pdf-print"><i class="icon-printer mr-2"></i> Print Invoices</button>
             </div>
         </div>
     </div>
@@ -101,8 +101,8 @@
                         @foreach ($invoices as $key => $invoice)
                         <tr>
                             <td class="invoice_title">
-                            <a class="text" href="{{ route('invoices.edit', $invoice->invoice_id) }}">{{ $invoice->financial_year }}{{ $invoice->invoice_no }}</a>
-                            <a class="pdf-img" target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a>
+                                <a class="text" href="{{ route('invoices.edit', $invoice->invoice_id) }}">{{ $invoice->financial_year }}{{ $invoice->invoice_no }}</a>
+                                <a class="pdf-img" target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a>
                             </td>
                             <td><a href="{{ route('customer.edit', $invoice->client_id) }}">{{ $invoice->customer_email }}</a></td>
                             <td class="paid_unpaid_show"><span data-url="{{ route('invoices.payment.status', $invoice->invoice_id) }}" class="{{ $invoice->paid_unpaid == 0 ? 'badge badge-danger unpaid-invoice-span' : 'badge paid_text' }}">{{ $invoice->paid_unpaid == 0 ? 'Unpaid' : 'Paid' }}</span></td>
@@ -118,8 +118,8 @@
                             <td>&nbsp;</td>
                             <td>{{ $invoice->remarks }}</td>
                             <td class="text-center">
-                            <a href="{{ route('invoices.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>
-                            <!-- <a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a> -->
+                                <a href="{{ route('invoices.delete', $invoice->invoice_id) }}" class="delete-resource"><i class="icon-trash"></i></a>
+                                <!-- <a target="_blank" href="{{ route('invoice.generate', $invoice->invoice_id) }}"><i class="icon-file-pdf"></i></a> -->
                             </td>
                         </tr>
                         @endforeach
@@ -131,8 +131,8 @@
                     </tbody>
                 </table>
                 <div class="mt-4">
-                  {{ $invoices->appends(request()->except('page'))->links() }}
-              </div>
+                    {{ $invoices->appends(request()->except('page'))->links() }}
+                </div>
             </div>
             <div class="row mt-4">
                 <div class="col-lg-12">
@@ -178,13 +178,13 @@
             form.find('select').val('');
             form.submit();
         });
-        $('#excel_export').click(function () {
+        $('.excel-export').click(function () {
             form.find("input[name='excel_export']").val(1);
             form.attr('target', '_blank').submit();
             form.removeAttr('target');
             form.find("input[name='excel_export']").val(0);
         });
-        $('#pdf_print').click(function() {
+        $('.pdf-print').click(function() {
             form.attr('action', '{{ route("invoices.bulk.generate") }}');
             form.attr('target', '_blank').submit();
             form.removeAttr('target');
