@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section("title") Customers | {{ env('APP_NAME') }} @endsection
+@section("title") Operators | {{ env('APP_NAME') }} @endsection
 @section('content')
 <div class="page-header">
     @if (Session::get('alert'))
@@ -13,8 +13,8 @@
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
             <h4><i class="icon-circle-right2 mr-2"></i>
-                <span class="font-weight-bold mr-2">Total Customers</span>
-                <span class="badge badge-primary badge-pill animated flipInX">{{ $customer_count }}</span>
+                <span class="font-weight-bold mr-2">Total Operators</span>
+                <span class="badge badge-primary badge-pill animated flipInX">{{ $count }}</span>
             </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none dropdown-toggle dropdownMenuButton-1" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-more"></i></a>
             <div class="dropdown-menu custom-menu-drop" aria-labelledby="dropdownMenuButton">
@@ -27,16 +27,10 @@
         </div>
         <div class="header-elements d-none py-0 mb-3 mb-md-0">
             <div class="breadcrumb">
-                <a href="{{ route('customer.add') }}">
+                <a href="{{ route('operator.add') }}">
                     <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
                         <b><i class="icon-plus2"></i></b>
-                        Add Customer
-                    </button>
-                </a>
-                <a href="{{ route('customer.import') }}">
-                    <button type="button" class="btn btn-secondary btn-labeled btn-labeled-left mr-2">
-                        <b><i class="icon-plus2"></i></b>
-                        Import Customers
+                        Add Operator
                     </button>
                 </a>
             </div>
@@ -66,44 +60,38 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Client ID</th>
-                            <th>Client Name</th>
-                            <th>Email</th>
+                            <th>Company Name</th>
+                            <th>Operator Name</th>
+                            <th>Contact Number</th>
                             <th>Address</th>
-                            <th>Contact</th>
                             <th>Whatsapp Number</th>
-                            <th>Aadhar</th>
-                            <th>PAN</th>
+                            <th>Aadhaar</th>
                             <th>GST</th>
                             <th>DOB</th>
-                            <th>Anniversary</th>
-                            <th style="white-space: nowrap;">Connection Date</th>
-                            <th>Remarks</th>
+                            <th>Licence</th>
+                            <th>Agreement</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customers as $customer)
+                        @foreach ($operators as $operator)
                         <tr>
                             <td>
-                                <a href="{{ route('customer.edit', $customer->client_id) }}">{{ $customer->customer_email }}</a>
+                                <a href="{{ route('operator.edit', $operator->id) }}">{{ $operator->company_name }}</a>
                             </td>
-                            <td>{{ $customer->customer_name }}</td>
-                            <td>{{ $customer->customer_email }}</td>
-                            <td>{{ $customer->customer_address }}</td>
-                            <td>{{ $customer->customer_contact_number }}</td>
-                            <td>{{ $customer->contact_number_two }}</td>
-                            <td>{{ $customer->aadhar_no }}</td>
-                            <td>{{ $customer->pan_no }}</td>
-                            <td>{{ $customer->gstin_no }}</td>
-                            <td>{{ $customer->dob != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->dob)->format('d/m/Y') : '-' }}</td>
-                            <td>{{ $customer->anniversary_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->anniversary_date)->format('d/m/Y') : '-' }}</td>
-                            <td>{{ $customer->connection_date != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $customer->connection_date)->format('d/m/Y') : '-' }}</td>
-                            <td>{{ $customer->remarks }}</td>
-                            <td><a href="{{ route('customer.delete', $customer->client_id) }}" class="delete-resource"><i class="icon-trash"></i></a>&nbsp;&nbsp;&nbsp;<a href="{{ route('invoices') }}?client_params={{ $customer->customer_email }}"><i class="icon-list3"></i></a></td>
+                            <td>{{ $operator->operator_name }}</td>
+                            <td>{{ $operator->contact_number }}</td>
+                            <td>{{ $operator->address }}</td>
+                            <td>{{ $operator->secondary_number }}</td>
+                            <td>{{ $operator->aadhaar_number }}</td>
+                            <td>{{ $operator->gstin_number }}</td>
+                            <td>{{ $operator->dob != NULL ? \Carbon\Carbon::CreateFromFormat('Y-m-d', $operator->dob)->format('d/m/Y') : '-' }}</td>
+                            <td><a href="{{ route('download-file') }}?path={{ $operator->licence }}"><i class="icon-download"></i></a></td>
+                            <td><a href="{{ route('download-file') }}?path={{ $operator->agreement }}"><i class="icon-download"></i></a></td>
+                            <td><a href="{{ route('invoices') }}?operator_id={{ $operator->id }}"><i class="icon-list3"></i></a></td>
                         </tr>
                         @endforeach
-                        @if (count($customers) == 0)
+                        @if (count($operators) == 0)
                         <tr>
                             <td colspan="8" class="text-center">No results found</td>
                         </tr>
@@ -111,7 +99,7 @@
                     </tbody>
                 </table>
                 <div class="mt-3">
-                  {{ $customers->appends(request()->except('page'))->links() }}
+                  {{ $operators->appends(request()->except('page'))->links() }}
               </div>
             </div>
             

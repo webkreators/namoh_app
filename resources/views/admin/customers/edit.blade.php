@@ -116,6 +116,17 @@
                                 <input autocomplete='off' type="text" value="{{ $customer->static_ip }}" class="form-control" name="static_ip" placeholder="Static IP" />
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Operator:</label>
+                            <div class="col-lg-8">
+                                <select class="form-control select-search error" name="operator_id" id="type" value="{{ old('operator_id') }}">
+                                    <option value="">Select Operator</option>
+                                    @foreach($operators as $operator)
+                                    <option value="{{ $operator->id }}" {{ $customer->operator_id == $operator->id ? 'selected' : '' }} class="text-capitalize">{{ $operator->company_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">Update Customer<i class="icon-database-insert ml-1"></i></button>
                         </div>

@@ -88,6 +88,12 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown">
+                    <a href="{{ route('operators') }}" class="navbar-nav-link {{ Request::is('admin/operators') ? 'active' : '' }}">
+                        <i class="icon-users2 mr-2"></i>
+                        Operators
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
                     <a href="{{ route('customers') }}" class="navbar-nav-link {{ Request::is('admin/customers') ? 'active' : '' }}">
                         <i class="icon-users2 mr-2"></i>
                         Customers

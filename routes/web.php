@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\OperatorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,10 +41,22 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('/customers', [ CustomerController::class, 'list' ])->name('customers');
         Route::get('/customers/delete/{id}', [ CustomerController::class, 'delete' ])->name('customers.delete');
         Route::get('/customers/add', [ CustomerController::class, 'addCustomer' ])->name('customer.add');
+        Route::get('/customers/import', [ CustomerController::class, 'importCustomers' ])->name('customer.import');
+        Route::post('/customers/import-process', [ CustomerController::class, 'processImport' ])->name('customer.process.import');
         Route::post('/customers', [ CustomerController::class, 'create' ])->name('customer.post');
         Route::get('/customers/{id}/edit', [ CustomerController::class, 'edit' ])->name('customer.edit');
         Route::put('/customers/{id}', [ CustomerController::class, 'update' ])->name('customers.update');
         Route::get('/customers/{id}/delete', [ CustomerController::class, 'delete' ])->name('customer.delete');
+    
+        /** Operators routes */
+        Route::get('/operators', [ OperatorController::class, 'list' ])->name('operators');
+        Route::get('/operators/delete/{id}', [ OperatorController::class, 'delete' ])->name('operators.delete');
+        Route::get('/operators/add', [ OperatorController::class, 'addCustomer' ])->name('operator.add');
+        Route::post('/operators', [ OperatorController::class, 'create' ])->name('operator.store');
+        Route::get('/operators/{id}/edit', [ OperatorController::class, 'edit' ])->name('operator.edit');
+        Route::put('/operators/{id}', [ OperatorController::class, 'update' ])->name('operator.update');
+        Route::get('/operators/{id}/delete', [ OperatorController::class, 'delete' ])->name('operator.delete');
+        Route::get('/download-file', [ OperatorController::class, 'downloadFile' ])->name('download-file');
 
         Route::get('/settings', [ AdminController::class, 'settings' ])->name('settings');
         Route::put('/settings', [ AdminController::class, 'updateSettings' ])->name('settings.update');

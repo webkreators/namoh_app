@@ -139,7 +139,7 @@
                         <br />
                         {{ $invoice->customer->customer_address }}<br />
                         @if (!empty($invoice->customer->gstin_no))
-                        GSTIN No :&nbsp;{{ $invoice->customer->gstin_no }}<br/>';
+                        GSTIN No :&nbsp;{{ $invoice->customer->gstin_no }}<br/>
                         @endif
                         @if (!empty($invoice->customer->panno))
                         Pan No&nbsp;: {{ $invoice->customer->panno }}<br/>
@@ -160,7 +160,8 @@
         </table>
         <div id="content">
             <div id="invoice_body">
-                <table style="width:100%">
+                <p style="margin-top: 10px; margin-bottom: 0; padding: 0">HSN/SAC - <b>9984</b></p>
+                <table style="width:100%; margin-top: 10px;">
                     <tr>
                         <td style="width:50%;"><b>Product/Service Details </b></td>
                         <td rowspan="" style="width:25%;"><b>Currency</b></td>

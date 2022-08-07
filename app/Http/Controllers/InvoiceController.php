@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Operator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
@@ -16,13 +17,16 @@ use Illuminate\Support\Facades\Session;
 class InvoiceController extends Controller
 {
     public function list(Request $request) {
-        $filters = $request->all();
+        $filters = array_merge(['operator_id' => ''], $request->all());
         $query = DB::table('invoice')->select('invoice.*', 'customer.customer_email', 'customer.customer_name', 'customer.customer_contact_number', 'customer.customer_address')->join('customer', 'invoice.client_id', '=', 'customer.client_id')->orderBy('invoice_id', 'DESC');
         if ($request->filled('client_params')) $query = $query->where('customer.customer_name', 'like', '%'.$request->client_params.'%')->orWhere('customer.customer_contact_number', 'like', '%'.$request->client_params.'%')->orWhere('customer.customer_email', 'like', '%'.$request->client_params.'%');
         if ($request->filled('paid_unpaid')) $query = $query->where('invoice.paid_unpaid', $request->paid_unpaid == 'unpaid' ? 0 : 1);
         if ($request->filled('date_from') && $request->filled('date_to')) {
             $query = $query->whereDate('invoice.invoice_date', ">=", Carbon::createFromFormat('d/m/Y', $request->date_from)->format('Y-m-d'));
             $query = $query->whereDate('invoice.invoice_date', "<=", Carbon::createFromFormat('d/m/Y', $request->date_to)->format('Y-m-d'));
+        }
+        if ($request->filled('operator_id')) {
+            $query = $query->where('customer.operator_id', $request->operator_id);
         }
         if ($request->excel_export == 1) {
             $file = fopen(public_path("csv_files/invoices.csv"), "w");
@@ -46,6 +50,7 @@ class InvoiceController extends Controller
             fclose($file);
             return response()->download(public_path("csv_files/invoices.csv"))->deleteFileAfterSend(true);
         } else {
+            $operators = Operator::all();
             $pay_1 = clone $query;
             $pay_2 = clone $query;
             $invoices_count = $query->count();
@@ -55,7 +60,7 @@ class InvoiceController extends Controller
             $unpaid_amount = $pay_2->where('paid_unpaid', 0)->sum('grand_total');
             $gross_amount = ($paid_amount + $unpaid_amount) * 100 / $math;
             $gst_amt = $gross_amount * 18 / 100;
-            return view('admin.invoices.list', compact('invoices', 'invoices_count', 'filters', 'paid_amount', 'unpaid_amount', 'gross_amount', 'gst_amt'));
+            return view('admin.invoices.list', compact('invoices', 'invoices_count', 'filters', 'paid_amount', 'unpaid_amount', 'gross_amount', 'gst_amt', 'operators'));
         }
     }
     

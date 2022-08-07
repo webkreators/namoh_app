@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Operator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Validator;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class CustomerController extends Controller
 {
@@ -21,7 +25,39 @@ class CustomerController extends Controller
     }
     
     public function addCustomer(Request $request) {
-        return view('admin.customers.add');
+        $operators = Operator::all();
+        return view('admin.customers.add', compact('operators'));
+    }
+    
+    public function importCustomers(Request $request) {
+      return view('admin.customers.import');
+    }
+  
+    public function processImport(Request $request) {
+      if ($request->hasFile('customers')) {
+        $fileName = time() . '_' . $request->customers->getClientOriginalName();
+        $request->file('customers')->storeAs('uploads', $fileName, 'public');
+        $file = storage_path("app/public/uploads/{$fileName}");
+        $rows = SimpleExcelReader::create($file)->getRows();
+        $rows->each(function(array $rowProperties) {
+          if (!Customer::where('customer_email', $rowProperties['ClientID'])->exists()) {
+            Customer::create([
+              'customer_email' => $rowProperties['ClientID'],
+              'customer_name' => $rowProperties['ClientName/FirmName'],
+              'customer_address' => $rowProperties['Address'],
+              'customer_contact_number' => (string)$rowProperties['ContactNoOne'],
+              'contact_number_two' => (string)$rowProperties['WhatsappNumber'],
+              'gstin_no' => $rowProperties['GSTINNumber'],
+              'connection_date' => $rowProperties['ConnectionDate'],
+              'static_ip' => $rowProperties['StaticIP'],
+              'aadhar_no' => (string)$rowProperties['AadharNumber']
+            ]);
+          }
+        });
+        return back()->with('alert', 'Customers have been imported.');
+      } else {
+        return back()->with('error', 'Please choose file to import customers');
+      }
     }
     
     public function create(Request $request) {
@@ -36,7 +72,8 @@ class CustomerController extends Controller
     
     public function edit(Request $request, $id) {
         $customer = Customer::find($id);
-        return view('admin.customers.edit', compact('customer'));
+        $operators = Operator::all();
+        return view('admin.customers.edit', compact('customer', 'operators'));
     }
     
     public function update(Request $request, $id) {

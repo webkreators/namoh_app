@@ -44,7 +44,7 @@
     <form action="" method="GET" _lpchecked="1" id="invoices_filters">
         <input type="hidden" name="excel_export" value='0' />
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <input value="{{ !empty($filters['client_params']) ? $filters['client_params'] : '' }}" type="text" name="client_params" class="form-control" placeholder="Search by client name/mobile/id" />
                 </div>
@@ -65,6 +65,16 @@
                         <option value="">Payment Status</option>
                         <option {{ !empty($filters['paid_unpaid']) && $filters['paid_unpaid'] == 'paid' ? 'selected' : '' }} value="paid">Paid</option>
                         <option {{ !empty($filters['paid_unpaid']) && $filters['paid_unpaid'] == 'unpaid' ? 'selected' : '' }} value="unpaid">UnPaid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <select name="operator_id" class="form-control">
+                        <option value="">Select Operator</option>
+                        @foreach($operators as $operator)
+                            <option value="{{ $operator->id }}" {{ $filters['operator_id'] == $operator->id ? 'selected' : '' }} class="text-capitalize">{{ $operator->company_name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
