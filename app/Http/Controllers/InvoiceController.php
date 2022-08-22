@@ -182,7 +182,7 @@ class InvoiceController extends Controller
         }
         $invoices = $query->get();
         $user = User::find(1);
-        $mpdf = new \Mpdf\Mpdf(['format' => 'A4', 'mode' => 'c']);
+        $mpdf = new \Mpdf\Mpdf(['format' => 'A4', 'mode' => 'c', 'tempDir' => storage_path('tempdir')]);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->list_indent_first_level = 0;
         foreach ($invoices as $key => $invoice) {
@@ -288,7 +288,7 @@ class InvoiceController extends Controller
         $terms = DB::table('terms_condition')->get();
         $bank_details = Db::table('bank_details')->first();
         #return view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'));
-        $mpdf = new \Mpdf\Mpdf(['format' => 'A4', 'mode' => 'c']);
+        $mpdf = new \Mpdf\Mpdf(['format' => 'A4', 'mode' => 'c', 'tempDir' => storage_path('tempdir')]);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->list_indent_first_level = 0;
         $html = view('admin.invoices.invoice')->with(compact('invoice', 'user', 'amount_after_discount', 'type', 'in_words', 'terms', 'bank_details'))->render();
